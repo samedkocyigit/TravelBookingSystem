@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public int AvailableRoom { get; set; }
+        public int? AvailableRoom { get; set; }
         public int Stars { get; set; }
         public string Location { get; set; }
 
