@@ -10,7 +10,6 @@ namespace UserService.Infrastructure.Repositories.UserRepositories
         public UserRepository(AppDbContext context)
         {
             _context = context;
-                       
         }
 
         public async Task<List<UserModel>> GetAllUsers()
