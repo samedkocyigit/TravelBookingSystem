@@ -9,7 +9,7 @@ namespace HotelService.Infrastructure.Repositories.FacilityRepositories
         Task<Facility> GetFacilityById(Guid id);
         Task<Facility> CreateFacility(Facility facility);
         Task<Facility> UpdateFacility(Facility facility);
-        Task<Facility> DeleteFacility(Guid id);
+        Task DeleteFacilityById(Guid id);
 
     }
 }

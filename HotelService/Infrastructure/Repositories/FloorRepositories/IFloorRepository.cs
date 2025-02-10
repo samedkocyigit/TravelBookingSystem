@@ -8,7 +8,7 @@ namespace HotelService.Infrastructure.Repositories.FloorRepositories
         Task<Floor> GetFloorById(Guid id);
         Task<Floor> CreateFloor(Floor floor);   
         Task<Floor> UpdateFloor(Floor floor);
-        Task<Floor> DeleteFloor(Guid id);
+        Task DeleteFloorById(Guid id);
 
     }
 }
