@@ -7,7 +7,7 @@ namespace HotelService.Infrastructure.ApplicationDbContext
     {
         public AppDbContext(DbContextOptions options ) : base(options) { }
 
-        public DbSet<Hotel> Hotel { get; set; }
+        public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Floor> Floors { get; set; }
         public DbSet<Facility> Facilities { get; set; }
         public DbSet<Room> Rooms { get; set; }
