@@ -1,4 +1,5 @@
-﻿using HotelService.Models.Models;
+﻿using HotelService.Domain.Dtos;
+using HotelService.Models.Models;
 
 namespace HotelService.Services.FloorServices
 {
@@ -6,7 +7,7 @@ namespace HotelService.Services.FloorServices
     {
         Task<List<Floor>> GetAllFloors();
         Task<Floor> GetFloorById(Guid id);
-        Task<Floor> CreateFloor(Floor floor);
+        Task<Floor> CreateFloor(FloorCreationDto floorDto);
         Task<Floor> UpdateFloor(Floor floor);
         Task DeleteFloor(Guid id);
     }
