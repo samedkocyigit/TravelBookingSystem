@@ -35,7 +35,7 @@ namespace FlightService.Services.FlightServices
 
         public async Task DeleteFlight(Guid id)
         {
-            await _flightRepository.GetFlightById(id);
+            await _flightRepository.DeleteFlight(id);
         }
     }
 }

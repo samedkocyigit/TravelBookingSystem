@@ -1,4 +1,6 @@
-﻿using HotelService.Infrastructure.Repositories.FloorRepositories;
+﻿using AutoMapper;
+using HotelService.Domain.Dtos;
+using HotelService.Infrastructure.Repositories.FloorRepositories;
 using HotelService.Models.Models;
 
 namespace HotelService.Services.FloorServices
@@ -6,9 +8,11 @@ namespace HotelService.Services.FloorServices
     public class FloorService:IFloorService
     {
         protected readonly IFloorRepository _floorRepository;
-        public FloorService(IFloorRepository floorRepository)
+        protected readonly IMapper _mapper;
+        public FloorService(IFloorRepository floorRepository,IMapper mapper)
         {
             _floorRepository = floorRepository;
+            _mapper = mapper;
         }
 
         public async Task<List<Floor>> GetAllFloors()
@@ -21,9 +25,10 @@ namespace HotelService.Services.FloorServices
             var floor = await _floorRepository.GetFloorById(id);
             return floor;
         }
-        public async Task<Floor> CreateFloor(Floor floor)
+        public async Task<Floor> CreateFloor(FloorCreationDto floorDto)
         {
-            var newFloor = await _floorRepository.CreateFloor(floor);
+            var mappedFloor = _mapper.Map<Floor>(floorDto);
+            var newFloor = await _floorRepository.CreateFloor(mappedFloor);
             return newFloor;
         }
 
@@ -35,7 +40,7 @@ namespace HotelService.Services.FloorServices
 
         public async Task DeleteFloor(Guid id)
         {
-            await _floorRepository.GetFloorById(id);
+            await _floorRepository.DeleteFloorById(id);
         }
     }
 }

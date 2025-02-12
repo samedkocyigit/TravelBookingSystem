@@ -8,11 +8,16 @@ using HotelService.Services.FacilityServices;
 using HotelService.Services.FloorServices;
 using HotelService.Services.HotelServices;
 using HotelService.Services.RoomServices;
+using HotelService.Services.MigrationService;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
@@ -23,11 +28,14 @@ builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IHotelService,HotelsService>();
 builder.Services.AddScoped<IFloorService, FloorService>();
 builder.Services.AddScoped<IFacilityService, FacilityService>();
+builder.Services.AddScoped<MigrationService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+MigrationService.InitializeMigration(app);
 
 app.UseSwagger();
 app.UseSwaggerUI();
