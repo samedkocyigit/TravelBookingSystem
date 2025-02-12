@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HotelService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250210194646_createInitial")]
+    [Migration("20250212163457_createInitial")]
     partial class createInitial
     {
         /// <inheritdoc />
@@ -31,11 +31,7 @@ namespace HotelService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("HotelId")
+                    b.Property<Guid>("FloorId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -44,7 +40,7 @@ namespace HotelService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HotelId");
+                    b.HasIndex("FloorId");
 
                     b.ToTable("Facilities");
                 });
@@ -55,7 +51,7 @@ namespace HotelService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("HotelId")
+                    b.Property<Guid>("HotelId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -85,6 +81,9 @@ namespace HotelService.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("RoomCapacity")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Stars")
                         .HasColumnType("integer");
@@ -127,16 +126,24 @@ namespace HotelService.Migrations
 
             modelBuilder.Entity("HotelService.Models.Models.Facility", b =>
                 {
-                    b.HasOne("HotelService.Models.Models.Hotel", null)
-                        .WithMany("Facilites")
-                        .HasForeignKey("HotelId");
+                    b.HasOne("HotelService.Models.Models.Floor", "Floor")
+                        .WithMany("Facilities")
+                        .HasForeignKey("FloorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Floor");
                 });
 
             modelBuilder.Entity("HotelService.Models.Models.Floor", b =>
                 {
-                    b.HasOne("HotelService.Models.Models.Hotel", null)
+                    b.HasOne("HotelService.Models.Models.Hotel", "Hotel")
                         .WithMany("Floors")
-                        .HasForeignKey("HotelId");
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("HotelService.Models.Models.Room", b =>
@@ -152,13 +159,13 @@ namespace HotelService.Migrations
 
             modelBuilder.Entity("HotelService.Models.Models.Floor", b =>
                 {
+                    b.Navigation("Facilities");
+
                     b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("HotelService.Models.Models.Hotel", b =>
                 {
-                    b.Navigation("Facilites");
-
                     b.Navigation("Floors");
                 });
 #pragma warning restore 612, 618
