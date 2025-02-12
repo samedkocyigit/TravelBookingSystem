@@ -14,11 +14,11 @@ namespace HotelService.Infrastructure.Repositories.FloorRepositories
 
         public async Task<List<Floor>> GetAllFloors()
         {
-            return await _context.Floors.Include(f=>f.Rooms).Include(f=>f.Facilities).ToListAsync();
+            return await _context.Floors.ToListAsync();
         }
         public async Task<Floor> GetFloorById(Guid id)
         {
-            return await _context.Floors.Include(u=>u.Rooms).Include(f=>f.Facilities).FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.Floors.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<Floor> CreateFloor(Floor floor)

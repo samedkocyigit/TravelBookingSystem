@@ -1,5 +1,4 @@
-﻿using HotelService.Domain.Dtos;
-using HotelService.Models.Models;
+﻿using HotelService.Models.Models;
 using HotelService.Services.RoomServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,9 +27,9 @@ namespace HotelService.Controlles
             return Ok(room);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateRoom(RoomCreationDto roomDto)
+        public async Task<IActionResult> CreateRoom(Room room)
         {
-            var newRoom = await _roomService.CreateRoom(roomDto);
+            var newRoom = await _roomService.CreateRoom(room);
             return Ok(newRoom);
         }
         [HttpPut]

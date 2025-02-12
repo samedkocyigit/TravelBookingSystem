@@ -1,5 +1,4 @@
-﻿using HotelService.Domain.Dtos;
-using HotelService.Models.Models;
+﻿using HotelService.Models.Models;
 
 namespace HotelService.Services.HotelServices
 {
@@ -7,7 +6,7 @@ namespace HotelService.Services.HotelServices
     {
         Task<List<Hotel>> GetAllHotels();
         Task<Hotel> GetHotelById(Guid id);
-        Task<Hotel> CreateHotel(HotelCreationDto hotelDto);
+        Task<Hotel> CreateHotel(Hotel hotel);
         Task<Hotel> UpdateHotel(Hotel hotel);
         Task DeleteHotel(Guid id);
     }

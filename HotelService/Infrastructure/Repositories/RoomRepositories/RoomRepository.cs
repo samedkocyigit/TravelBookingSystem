@@ -1,5 +1,4 @@
-﻿using HotelService.Domain.Enums;
-using HotelService.Infrastructure.ApplicationDbContext;
+﻿using HotelService.Infrastructure.ApplicationDbContext;
 using HotelService.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,27 +38,6 @@ namespace HotelService.Infrastructure.Repositories.RoomRepositories
             var room = await GetRoomById(id);
             _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
-        }
-        public async Task<int> GetLastRoomNumber(Guid hotelId)
-        {
-            var rooms = _context.Rooms.Where(r=> r.Floor.HotelId == hotelId).OrderByDescending(r => r.RoomNumber).ToList();
-            if (rooms.Count > 0)
-            {
-                var higestRoomNumber = rooms.ToList().FirstOrDefault();
-                var roomNumber = higestRoomNumber.RoomNumber == null ? 1 : higestRoomNumber.RoomNumber++;
-                return roomNumber;
-            }
-            else
-            {
-                var roomNumber = 1;
-                return roomNumber;
-            }
-        }
-        public async Task<int> AllRoomsAvailable(Guid hotelId)
-        {
-            var availableRooms = await _context.Rooms.Where(h => h.Floor.Hotel.Id == hotelId && h.IsBooked == IsBooked.Available).ToListAsync();
-            var availabeRoomCounter = availableRooms.Count;
-            return availabeRoomCounter;
         }
     }
 }

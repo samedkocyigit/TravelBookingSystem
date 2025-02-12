@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using HotelService.Domain.Dtos;
-using HotelService.Infrastructure.Repositories.FacilityRepositories;
+﻿using HotelService.Infrastructure.Repositories.FacilityRepositories;
 using HotelService.Models.Models;
 
 namespace HotelService.Services.FacilityServices
@@ -8,11 +6,9 @@ namespace HotelService.Services.FacilityServices
     public class FacilityService:IFacilityService
     {
         protected readonly IFacilityRepository _facilityRepository;
-        protected readonly IMapper _mapper;
-        public FacilityService(IFacilityRepository facilityRepository,IMapper mapper)
+        public FacilityService(IFacilityRepository facilityRepository)
         {
             _facilityRepository = facilityRepository;
-            _mapper = mapper;
         }
 
         public async Task<List<Facility>> GetAllFacilities()
@@ -25,10 +21,9 @@ namespace HotelService.Services.FacilityServices
             var facility = await _facilityRepository.GetFacilityById(id);
             return facility;
         }
-        public async Task<Facility> CreateFacility(FacilityCreationDto facilityDto)
+        public async Task<Facility> CreateFacility(Facility facility)
         {
-            var mappedFacility = _mapper.Map<Facility>(facilityDto);
-            var newFacility = await _facilityRepository.CreateFacility(mappedFacility);
+            var newFacility = await _facilityRepository.CreateFacility(facility);
             return newFacility;
         }
 
@@ -40,7 +35,7 @@ namespace HotelService.Services.FacilityServices
 
         public async Task DeleteFacility(Guid id)
         {
-            await _facilityRepository.DeleteFacilityById(id);
+            await _facilityRepository.GetFacilityById(id);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using HotelService.Domain.Dtos;
-using HotelService.Infrastructure.Repositories.HotelRepositories;
+﻿using HotelService.Infrastructure.Repositories.HotelRepositories;
 using HotelService.Models.Models;
 
 namespace HotelService.Services.HotelServices
@@ -8,12 +6,9 @@ namespace HotelService.Services.HotelServices
     public class HotelsService:IHotelService
     {
         protected readonly IHotelRepository _hotelRepository;
-        protected readonly IMapper _mapper;
-
-        public HotelsService(IHotelRepository hotelRepository,IMapper mapper)
+        public HotelsService(IHotelRepository hotelRepository)
         {
             _hotelRepository = hotelRepository;
-            _mapper = mapper;
         }
 
         public async Task<List<Hotel>> GetAllHotels()
@@ -26,10 +21,9 @@ namespace HotelService.Services.HotelServices
             var hotel = await _hotelRepository.GetHotelById(id);
             return hotel;
         }
-        public async Task<Hotel> CreateHotel(HotelCreationDto hotelDto)
+        public async Task<Hotel> CreateHotel(Hotel hotel)
         {
-            var mappedHotel = _mapper.Map<Hotel>(hotelDto);
-            var newHotel =  await _hotelRepository.CreateHotel(mappedHotel);
+            var newHotel = await _hotelRepository.CreateHotel(hotel);
             return newHotel;
         }
 
@@ -41,7 +35,7 @@ namespace HotelService.Services.HotelServices
 
         public async Task DeleteHotel(Guid id)
         {
-            await _hotelRepository.DeleteHotelById(id);
+            await _hotelRepository.GetHotelById(id);
         }
     }
 }

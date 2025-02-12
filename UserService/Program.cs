@@ -7,7 +7,6 @@ using UserService.Infrastructure.ApplicationDbContext;
 using UserService.Infrastructure.Repositories.UserRepositories;
 using UserService.Services.AuthServices;
 using UserService.Services.EmailServices;
-using UserService.Services.MigrationService;
 using UserService.Services.TokenServices;
 using UserService.Services.UserServices;
 
@@ -26,8 +25,6 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserService, UsersService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<MigrationService>();
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -52,11 +49,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-MigrationService.InitializeMigration(app);
-
-
-app.UseSwagger();
-app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.MapControllers();

@@ -1,5 +1,4 @@
-﻿using HotelService.Domain.Dtos;
-using HotelService.Models.Models;
+﻿using HotelService.Models.Models;
 using HotelService.Services.FacilityServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,9 +27,9 @@ namespace HotelService.Controlles
             return Ok(facility);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateFacility(FacilityCreationDto facilityDto)
+        public async Task<IActionResult> CreateFacility(Facility facility)
         {
-            var newFacility = await _facilityService.CreateFacility(facilityDto);
+            var newFacility = await _facilityService.CreateFacility(facility);
             return Ok(newFacility);
         }
         [HttpPut]
