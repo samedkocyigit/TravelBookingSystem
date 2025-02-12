@@ -14,6 +14,27 @@ namespace HotelService.Infrastructure.ApplicationDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Hotel>(entity =>
+            {
+                entity.HasKey(h => h.Id);
+                entity.HasMany(h => h.Floors)
+                      .WithOne(f => f.Hotel)
+                      .HasForeignKey(f => f.HotelId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+            modelBuilder.Entity<Floor>(entity =>
+            {
+                entity.HasKey(f=> f.Id);
+                entity.HasMany(f=>f.Rooms)
+                      .WithOne(r => r.Floor)
+                      .HasForeignKey(r=>r.FloorId)
+                      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(f=>f.Facilities)
+                      .WithOne(r => r.Floor)
+                      .HasForeignKey(r=>r.FloorId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
             base.OnModelCreating(modelBuilder);
         }
     }
