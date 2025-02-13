@@ -1,5 +1,5 @@
 ﻿using FlightService.Domain.Models;
-using FlightService.Infrastructure.Repositories.FlightRepository;
+using FlightService.Infrastructure.Repositories.FlightRepositories;
 
 namespace FlightService.Services.FlightServices
 {

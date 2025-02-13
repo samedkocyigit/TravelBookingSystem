@@ -13,7 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelService", "HotelServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightService", "FlightService\FlightService.csproj", "{BF48A489-1E4F-4E83-ADA3-D0C30DDA6A43}"
 EndProject
+<<<<<<< Updated upstream
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D8D85024-F68B-46B6-80F1-0C13A7EC951B}"
+=======
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7898ECAA-AD72-4F89-897C-8AB49649742A}"
+>>>>>>> Stashed changes
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
@@ -48,7 +52,10 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+<<<<<<< Updated upstream
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2418AB3C-EB39-4470-8948-7BDB136DC918}
 	EndGlobalSection
+=======
+>>>>>>> Stashed changes
 EndGlobal

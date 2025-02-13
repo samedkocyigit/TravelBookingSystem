@@ -1,6 +1,6 @@
 ﻿using FlightService.Domain.Models;
 
-namespace FlightService.Infrastructure.Repositories.FlightRepository
+namespace FlightService.Infrastructure.Repositories.FlightRepositories
 {
     public interface IFlightRepository
     {

@@ -2,7 +2,7 @@
 using FlightService.Infrastructure.ApplicationDbContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlightService.Infrastructure.Repositories.FlightRepository
+namespace FlightService.Infrastructure.Repositories.FlightRepositories
 {
     public class FlightRepository:IFlightRepository
     {

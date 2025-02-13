@@ -8,7 +8,7 @@ namespace FlightService.Controllers
     [Route("api/[controller]")]
     public class FlightController:ControllerBase
     {
-        private readonly IFlightService _flightService;
+        protected readonly IFlightService _flightService;
         public FlightController(IFlightService flightService)
         {
             _flightService = flightService;
