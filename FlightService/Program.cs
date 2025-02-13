@@ -11,6 +11,9 @@ using FlightService.Services.AirportServices;
 using FlightService.Services.BaggageAllowanceServices;
 using FlightService.Services.FlightCompanyServices;
 using FlightService.Services.FlightServices;
+using FlightService.Services.MigrationService;
+using FlightService.Services.SeatServices;
+using FlightService.Services.TicketPriceServices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +34,14 @@ builder.Services.AddScoped<IBaggageAllowanceRepository,BaggageAllowanceRepositor
 builder.Services.AddScoped<ITicketPriceRepository,TicketPriceRepository>();
 
 
-builder.Services.AddScoped<IFlightService, FlightsService>();
+builder.Services.AddScoped<IFlightService,FlightsService>();
+builder.Services.AddScoped<ISeatService,SeatService>();
+builder.Services.AddScoped<IAircraftService,AircraftService>();
+builder.Services.AddScoped<IFlightCompanyService,FlightCompanyService>();
+builder.Services.AddScoped<ITicketPriceService,TicketPriceService>();
+builder.Services.AddScoped<IBaggageAllowanceService,BaggageAllowanceService>();
+builder.Services.AddScoped<IAirportService,AirportService>();
+builder.Services.AddScoped<MigrationService>();
 
 var app = builder.Build();
 MigrationService.InitializeMigration(app);

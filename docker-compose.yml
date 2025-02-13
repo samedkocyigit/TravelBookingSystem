@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  userservice:
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    container_name: userservice
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=TavelBookingSystemUserService;User Id=postgres;Password=samed123;
+    depends_on:
+      - db
+
+  bookingservice:
+    build:
+      context: .
+      dockerfile: BookingService/Dockerfile
+    container_name: bookingservice
+    ports:
+      - "5002:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=TavelBookingSystemBookingService;User Id=postgres;Password=samed123;
+      - Services__UserService=http://userservice
+    depends_on:
+      - db
+      - userservice
+
+  hotelservice:
+    build:
+      context: .
+      dockerfile: HotelService/Dockerfile
+    container_name: hotelservice
+    ports:
+      - "5003:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=TavelBookingSystemHotelService;User Id=postgres;Password=samed123;
+    depends_on:
+      - db
+
+  flightservice:
+    build:
+      context: .
+      dockerfile: FlightService/Dockerfile
+    container_name: flightservice
+    ports:
+      - "5004:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=TavelBookingSystemFlightService;User Id=postgres;Password=samed123;
+    depends_on:
+      - db
+
+  paymentservice:
+    build:
+      context: .
+      dockerfile: PaymentService/Dockerfile
+    container_name: paymentservice
+    ports:
+      - "5005:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=TavelBookingSystemPaymentService;User Id=postgres;Password=samed123;
+    depends_on:
+      - db
+      - bookingservice
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: samed123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

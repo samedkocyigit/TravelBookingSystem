@@ -1,5 +1,5 @@
 ﻿using FlightService.Domain.Models;
-using FlightService.Infrastructure.Repositories.FlightRepository;
+using FlightService.Infrastructure.Repositories.FlightRepositories;
 
 namespace FlightService.Services.FlightServices
 {
@@ -35,7 +35,7 @@ namespace FlightService.Services.FlightServices
 
         public async Task DeleteFlight(Guid id)
         {
-            await _flightRepository.GetFlightById(id);
+            await _flightRepository.DeleteFlight(id);
         }
     }
 }
