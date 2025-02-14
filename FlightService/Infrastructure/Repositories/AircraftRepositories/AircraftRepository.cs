@@ -14,7 +14,9 @@ namespace FlightService.Infrastructure.Repositories.AircraftRepositories
 
         public async Task<List<Aircraft>> GetAllAircrafts()
         {
-            return await _context.Aircrafts.ToListAsync();
+            return await _context.Aircrafts
+                .Include(a => a.Flights)
+                .ToListAsync();
         }
         public async Task<Aircraft> GetAircraftById(Guid id)
         {
