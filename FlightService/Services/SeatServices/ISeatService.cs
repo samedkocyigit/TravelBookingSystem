@@ -1,13 +1,14 @@
-﻿using FlightService.Domain.Models;
+﻿using FlightService.Domain.Dtos.Seat;
+using FlightService.Domain.Models;
 
 namespace FlightService.Services.SeatServices
 {
     public interface ISeatService
     {
-        Task<List<Seat>> GetAllSeats();
-        Task<Seat> GetSeatById(Guid id);
-        Task<Seat> CreateSeat(Seat seat);
-        Task<Seat> UpdateSeat(Seat seat);
+        Task<List<SeatResponseDto>> GetAllSeats();
+        Task<SeatResponseDto> GetSeatById(Guid id);
+        Task<SeatResponseDto> CreateSeat(CreateSeatDto seatDto);
+        Task<SeatResponseDto> UpdateSeat(CreateSeatDto seatDto);
         Task DeleteSeat(Guid id);
     }
 }
