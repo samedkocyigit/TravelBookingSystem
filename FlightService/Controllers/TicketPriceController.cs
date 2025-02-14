@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FlightService.Domain.Models;
 using FlightService.Services.TicketPriceServices;
+using FlightService.Domain.Dtos.TicketPrice;
 
 namespace FlightService.Controllers
 {
@@ -27,15 +28,15 @@ namespace FlightService.Controllers
             return Ok(ticketPrice);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateTicketPrice(TicketPrice ticketPrice)
+        public async Task<IActionResult> CreateTicketPrice(CreateTicketPriceDto ticketPriceDto)
         {
-            var newTicketPrice = await _ticketPriceService.CreateTicketPrice(ticketPrice);
+            var newTicketPrice = await _ticketPriceService.CreateTicketPrice(ticketPriceDto);
             return Ok(newTicketPrice);
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateTicketPrice(TicketPrice ticketPrice)
+        public async Task<IActionResult> UpdateTicketPrice(CreateTicketPriceDto ticketPriceDto)
         {
-            var updatedTicketPrice = await _ticketPriceService.UpdateTicketPrice(ticketPrice);
+            var updatedTicketPrice = await _ticketPriceService.UpdateTicketPrice(ticketPriceDto);
             return Ok(updatedTicketPrice);
         }
         [HttpDelete]
