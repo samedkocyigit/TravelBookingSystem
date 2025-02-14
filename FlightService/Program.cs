@@ -15,9 +15,11 @@ using FlightService.Services.MigrationService;
 using FlightService.Services.SeatServices;
 using FlightService.Services.TicketPriceServices;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
