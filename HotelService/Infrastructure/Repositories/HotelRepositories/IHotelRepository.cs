@@ -1,4 +1,5 @@
-﻿using HotelService.Models.Models;
+﻿using HotelService.Domain.Dtos;
+using HotelService.Models.Models;
 
 namespace HotelService.Infrastructure.Repositories.HotelRepositories
 {
@@ -10,5 +11,6 @@ namespace HotelService.Infrastructure.Repositories.HotelRepositories
         Task<Hotel> CreateHotel(Hotel hotel);   
         Task<Hotel> UpdateHotel(Hotel hotel);
         Task DeleteHotelById(Guid id);
+        Task<List<Guid>> GetHotelIds();
     }
 }

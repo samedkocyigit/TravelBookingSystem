@@ -10,6 +10,7 @@ namespace HotelService.Services.HotelServices
         Task<Hotel> GetHotelById(Guid id);
         Task<Hotel> CreateHotel(HotelCreationDto hotel);
         Task<Hotel> UpdateHotel(Hotel hotel);
+        Task AddManager(Guid id);
         Task DeleteHotel(Guid id);
     }
 }

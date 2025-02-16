@@ -57,5 +57,19 @@ namespace HotelService.Services.HotelServices
             }
             return mappedAvailableRooms;
         }
+        public async Task AddManager(Guid id)
+        {
+            var hotels = await _hotelRepository.GetHotelIds();
+            foreach (var hotelId in hotels)
+            {
+                var hotel = await _hotelRepository.GetHotelById(hotelId);
+                if(hotel.ManagerIds.Contains(id))
+                {
+                    throw new Exception("Manager is already assigned to a hotel");
+                }
+                hotel.ManagerIds.Add(id);
+                var updated =  await _hotelRepository.UpdateHotel(hotel);
+            }
+        }
     }
 }
