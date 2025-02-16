@@ -59,16 +59,24 @@ namespace HotelService.Services.HotelServices
         }
         public async Task AddManager(Guid id)
         {
+            Console.WriteLine($"AddManager() çağrıldı, gelen id: {id}");
+
             var hotels = await _hotelRepository.GetHotelIds();
             foreach (var hotelId in hotels)
             {
                 var hotel = await _hotelRepository.GetHotelById(hotelId);
-                if(hotel.ManagerIds.Contains(id))
+                Console.WriteLine($"messispor : : : {hotel.Location}");
+                if (hotel.ManagerIds == null)
                 {
-                    throw new Exception("Manager is already assigned to a hotel");
+                    Console.WriteLine("ronaldospor");
+                    hotel.ManagerIds = new List<Guid>();
+                    Console.WriteLine($"after  =  {hotel.ManagerIds.Count}");    
+
                 }
+
                 hotel.ManagerIds.Add(id);
-                var updated =  await _hotelRepository.UpdateHotel(hotel);
+                Console.WriteLine($"blablalba first argument = {hotel.ManagerIds[0]} {hotel.ManagerIds.Count}");    
+                var updated = await _hotelRepository.UpdateHotel(hotel);
             }
         }
     }
