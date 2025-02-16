@@ -1,4 +1,5 @@
-﻿using HotelService.Domain.Enums;
+﻿using HotelService.Domain.Dtos;
+using HotelService.Domain.Enums;
 using HotelService.Infrastructure.ApplicationDbContext;
 using HotelService.Models.Models;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,12 @@ namespace HotelService.Infrastructure.Repositories.HotelRepositories
             var hotel = await GetHotelById(id);
             _context.Hotels.Remove(hotel);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Guid>> GetHotelIds()
+        {
+            var hotelIds = await _context.Hotels.Select(h=> h.Id).ToListAsync();
+            return hotelIds;
         }
     }
 }

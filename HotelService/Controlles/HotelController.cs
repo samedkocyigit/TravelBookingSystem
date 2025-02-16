@@ -53,5 +53,12 @@ namespace HotelService.Controlles
             var availableRooms = await _hotelService.GetAllAvailableRooms();
             return Ok(availableRooms);
         }
+        [HttpPut]
+        [Route("new-manager")]
+        public async Task<IActionResult> AddManager(Guid id)
+        {
+            await _hotelService.AddManager(id);
+            return Ok();
+        }
     }
 }
