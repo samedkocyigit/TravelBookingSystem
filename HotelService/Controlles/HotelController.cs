@@ -46,5 +46,12 @@ namespace HotelService.Controlles
             await _hotelService.DeleteHotel(id);
             return Ok();
         }
+        [HttpGet]
+        [Route("available-rooms")]
+        public async Task<IActionResult> GetAllAvailableRooms()
+        {
+            var availableRooms = await _hotelService.GetAllAvailableRooms();
+            return Ok(availableRooms);
+        }
     }
 }
