@@ -9,6 +9,8 @@
         public int Stars { get; set; }
         public string Location { get; set; }
 
+        public List<Guid>? ManagerIds { get; set; } = new List<Guid>();
+        public List<Guid>? CustomerIds { get; set; } = new List<Guid>();
         public List<Floor>? Floors { get; set; } = new List<Floor>();
     }
 }
