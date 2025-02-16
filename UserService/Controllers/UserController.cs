@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UserService.Domain.Dtos;
 using UserService.Domain.Models;
 using UserService.Services.UserServices;
 
@@ -28,7 +29,7 @@ namespace UserService.Controllers
             return Ok(user);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateUser(UserModel user)
+        public async Task<IActionResult> CreateUser(CreateUserDto user)
         {
             var createdUser = await _userService.CreateUser(user);
             return Ok(createdUser);
