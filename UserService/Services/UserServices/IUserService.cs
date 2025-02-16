@@ -7,7 +7,7 @@ namespace UserService.Services.UserServices
     {
         Task<List<UserDto>> GetAllUsers();
         Task<UserDto> GetUserById(Guid id);
-        Task<UserDto> CreateUser(UserModel user);
+        Task<UserDto> CreateUser(CreateUserDto user);
         Task<UserDto> UpdateUser(UserModel user);
         Task DeleteUser(Guid id);
     }
