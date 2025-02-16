@@ -8,15 +8,15 @@ using HotelService.Services.FacilityServices;
 using HotelService.Services.FloorServices;
 using HotelService.Services.HotelServices;
 using HotelService.Services.RoomServices;
-using System.Reflection;
 using HotelService.Services.MigrationService;
+using HotelService.Services.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile)); 
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IFloorRepository, FloorRepository>();
