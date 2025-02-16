@@ -22,25 +22,289 @@ namespace FlightService.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("FlightService.Domain.Models.Aircraft", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Aircrafts");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.Airport", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IATACode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Airports");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.BaggageAllowance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("ExtraChargePerKg")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("FlightId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("SeatClass")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("WeightLimitKg")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlightId");
+
+                    b.ToTable("BaggageAllowances");
+                });
+
             modelBuilder.Entity("FlightService.Domain.Models.Flight", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CompanyName")
+                    b.Property<Guid>("AircraftId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DepartureTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("DestinationAirportId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FlightCompanyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FlightNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("FlightTime")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<Guid>("OriginAirportId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AircraftId");
+
+                    b.HasIndex("DestinationAirportId");
+
+                    b.HasIndex("FlightCompanyId");
+
+                    b.HasIndex("OriginAirportId");
+
+                    b.ToTable("Flights");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.FlightCompany", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlightCompanies");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.Seat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FlightId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IsBooked")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SeatClass")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SeatNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TicketPriceId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlightId");
+
+                    b.HasIndex("TicketPriceId");
+
+                    b.ToTable("Seats");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.TicketPrice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FlightId")
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<string>("SeatClass")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Flights");
+                    b.HasIndex("FlightId");
+
+                    b.ToTable("TicketPrices");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.BaggageAllowance", b =>
+                {
+                    b.HasOne("FlightService.Domain.Models.Flight", "Flight")
+                        .WithMany("BaggageAllowances")
+                        .HasForeignKey("FlightId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Flight");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.Flight", b =>
+                {
+                    b.HasOne("FlightService.Domain.Models.Aircraft", "Aircraft")
+                        .WithMany("Flights")
+                        .HasForeignKey("AircraftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlightService.Domain.Models.Airport", "DestinationAirport")
+                        .WithMany("ArrivingFlights")
+                        .HasForeignKey("DestinationAirportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlightService.Domain.Models.FlightCompany", "FlightCompany")
+                        .WithMany("Flights")
+                        .HasForeignKey("FlightCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlightService.Domain.Models.Airport", "OriginAirport")
+                        .WithMany("DepartingFlights")
+                        .HasForeignKey("OriginAirportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aircraft");
+
+                    b.Navigation("DestinationAirport");
+
+                    b.Navigation("FlightCompany");
+
+                    b.Navigation("OriginAirport");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.Seat", b =>
+                {
+                    b.HasOne("FlightService.Domain.Models.Flight", "Flight")
+                        .WithMany("Seats")
+                        .HasForeignKey("FlightId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlightService.Domain.Models.TicketPrice", "TicketPrice")
+                        .WithMany()
+                        .HasForeignKey("TicketPriceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Flight");
+
+                    b.Navigation("TicketPrice");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.TicketPrice", b =>
+                {
+                    b.HasOne("FlightService.Domain.Models.Flight", "Flight")
+                        .WithMany("TicketPrices")
+                        .HasForeignKey("FlightId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Flight");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.Aircraft", b =>
+                {
+                    b.Navigation("Flights");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.Airport", b =>
+                {
+                    b.Navigation("ArrivingFlights");
+
+                    b.Navigation("DepartingFlights");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.Flight", b =>
+                {
+                    b.Navigation("BaggageAllowances");
+
+                    b.Navigation("Seats");
+
+                    b.Navigation("TicketPrices");
+                });
+
+            modelBuilder.Entity("FlightService.Domain.Models.FlightCompany", b =>
+                {
+                    b.Navigation("Flights");
                 });
 #pragma warning restore 612, 618
         }

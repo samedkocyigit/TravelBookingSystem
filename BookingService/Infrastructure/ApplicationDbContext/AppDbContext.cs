@@ -10,7 +10,8 @@ namespace BookingService.Infrastructure.ApplicationDbContext
             
         }
 
-        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<FlightBooking> FlightBookings { get; set; }
+        public DbSet<HotelBooking> HotelBookings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,10 +1,25 @@
 using FlightService.Infrastructure.ApplicationDbContext;
-using FlightService.Infrastructure.Repositories.FlightRepository;
+using FlightService.Infrastructure.Repositories.AircraftRepositories;
+using FlightService.Infrastructure.Repositories.AirportRepositories;
+using FlightService.Infrastructure.Repositories.BaggageAllowanceRepositories;
+using FlightService.Infrastructure.Repositories.FlightCompanyCompanyRepositories;
+using FlightService.Infrastructure.Repositories.FlightRepositories;
+using FlightService.Infrastructure.Repositories.SeatRepositories;
+using FlightService.Infrastructure.Repositories.TicketPriceRepositories;
+using FlightService.Services.AircraftServices;
+using FlightService.Services.AirportServices;
+using FlightService.Services.BaggageAllowanceServices;
+using FlightService.Services.FlightCompanyServices;
 using FlightService.Services.FlightServices;
+using FlightService.Services.MigrationService;
+using FlightService.Services.SeatServices;
+using FlightService.Services.TicketPriceServices;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -13,10 +28,25 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IFlightRepository, FlightRepository>();
+builder.Services.AddScoped<IFlightCompanyRepository,FlightCompanyRepository>();
+builder.Services.AddScoped<ISeatRepository,SeatRepository>();
+builder.Services.AddScoped<IAircraftRepository,AircraftRepository>();
+builder.Services.AddScoped<IAirportRepository,AirportRepository>();
+builder.Services.AddScoped<IBaggageAllowanceRepository,BaggageAllowanceRepository>();
+builder.Services.AddScoped<ITicketPriceRepository,TicketPriceRepository>();
 
-builder.Services.AddScoped<IFlightService, FlightsService>();
+
+builder.Services.AddScoped<IFlightService,FlightsService>();
+builder.Services.AddScoped<ISeatService,SeatService>();
+builder.Services.AddScoped<IAircraftService,AircraftService>();
+builder.Services.AddScoped<IFlightCompanyService,FlightCompanyService>();
+builder.Services.AddScoped<ITicketPriceService,TicketPriceService>();
+builder.Services.AddScoped<IBaggageAllowanceService,BaggageAllowanceService>();
+builder.Services.AddScoped<IAirportService,AirportService>();
+builder.Services.AddScoped<MigrationService>();
 
 var app = builder.Build();
+MigrationService.InitializeMigration(app);
 
 app.UseSwagger();
 app.UseSwaggerUI();

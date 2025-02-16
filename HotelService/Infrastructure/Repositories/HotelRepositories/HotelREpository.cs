@@ -1,4 +1,5 @@
-﻿using HotelService.Infrastructure.ApplicationDbContext;
+﻿using HotelService.Domain.Enums;
+using HotelService.Infrastructure.ApplicationDbContext;
 using HotelService.Models.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,15 +15,34 @@ namespace HotelService.Infrastructure.Repositories.HotelRepositories
 
         public async Task<List<Hotel>> GetAllHotels()
         {
-            return await _context.Hotels.ToListAsync();
+            return await _context.Hotels
+                .Include(h=> h.Floors)
+                    .ThenInclude(f=>f.Rooms)
+                .Include(h=> h.Floors)
+                    .ThenInclude(f=>f.Facilities)
+                .ToListAsync();
+        }
+        public async Task<List<Hotel>> GetAllAvailableRooms()
+        {
+            return await _context.Hotels
+                .Include(h => h.Floors)
+                    .ThenInclude(f => f.Rooms)
+                .Where(h => h.Floors.SelectMany(f=>f.Rooms).Any(r=> r.IsBooked == IsBooked.Available))
+                .ToListAsync();
         }
         public async Task<Hotel> GetHotelById(Guid id)
         {
-            return await _context.Hotels.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.Hotels
+                .Include(h=> h.Floors)
+                    .ThenInclude(f=>f.Rooms)
+                .Include(h=> h.Floors)
+                    .ThenInclude(f=>f.Facilities)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<Hotel> CreateHotel(Hotel hotel)
         {
+            _context.Hotels.Add(hotel);
             await _context.SaveChangesAsync();
             return hotel;
         }

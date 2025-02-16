@@ -1,4 +1,5 @@
-﻿using HotelService.Models.Models;
+﻿using HotelService.Domain.Dtos;
+using HotelService.Models.Models;
 using HotelService.Services.HotelServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,9 +28,9 @@ namespace HotelService.Controlles
             return Ok(hotel);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateHotel(Hotel hotel)
+        public async Task<IActionResult> CreateHotel(HotelCreationDto hotelDto)
         {
-            var newHotel = await _hotelService.CreateHotel(hotel);
+            var newHotel = await _hotelService.CreateHotel(hotelDto);
             return Ok(newHotel);
         }
         [HttpPut]
@@ -44,6 +45,13 @@ namespace HotelService.Controlles
         {
             await _hotelService.DeleteHotel(id);
             return Ok();
+        }
+        [HttpGet]
+        [Route("available-rooms")]
+        public async Task<IActionResult> GetAllAvailableRooms()
+        {
+            var availableRooms = await _hotelService.GetAllAvailableRooms();
+            return Ok(availableRooms);
         }
     }
 }
