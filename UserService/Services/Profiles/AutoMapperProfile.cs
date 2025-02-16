@@ -17,6 +17,17 @@ namespace UserService.Services.Profiles
                 .ForMember(dest => dest.age, opt => opt.MapFrom(src => src.Age))
                 .ForMember(dest => dest.birthday, opt => opt.MapFrom(src => src.Birthday))
                 .ForMember(dest => dest.nationality, opt => opt.MapFrom(src => src.Nationality));
+
+            CreateMap<CreateUserDto, UserModel>()
+                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.Age))
+                .ForMember(dest => dest.Roles , opt => opt.MapFrom(src => src.Roles))
+                .ForMember(dest => dest.Nationality, opt => opt.MapFrom(src => src.Nationality))
+                .ReverseMap();
         }
     }
 }
