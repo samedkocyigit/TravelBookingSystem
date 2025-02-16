@@ -6,6 +6,7 @@ namespace HotelService.Services.HotelServices
     public interface IHotelService
     {
         Task<List<Hotel>> GetAllHotels();
+        Task<List<AvailableRoomsDto>> GetAllAvailableRooms();
         Task<Hotel> GetHotelById(Guid id);
         Task<Hotel> CreateHotel(HotelCreationDto hotel);
         Task<Hotel> UpdateHotel(Hotel hotel);
