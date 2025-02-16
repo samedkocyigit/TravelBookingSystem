@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Text;
 using UserService.Domain.Dtos;
+using UserService.Domain.Enums;
 using UserService.Domain.Models;
 using UserService.Infrastructure.Repositories.UserRepositories;
 
@@ -36,9 +37,13 @@ namespace UserService.Services.UserServices
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             var mappedUser = _mapper.Map<UserModel>(user);
             var newUser = await _userRepository.CreateUser(mappedUser);
-            if(newUser.Roles.Equals("admin") || newUser.Roles.Equals("manager"))
+            if(newUser.Roles == Roles.Admin || newUser.Roles == Roles.Manager)
             {
-                var response = await _httpClient.PutAsync("http://hotelservice:8080/api/Hotel/new-manager", new StringContent(JsonConvert.SerializeObject(newUser.Id), Encoding.UTF8, "application/json"));
+                var payload = new { id = newUser.Id };
+                var jsonPayload = JsonConvert.SerializeObject(payload);
+                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PutAsync("http://hotelservice:8080/api/Hotel/new-manager", content);
             }
             var mappedUserDto = _mapper.Map<UserDto>(newUser);
             return mappedUserDto;
