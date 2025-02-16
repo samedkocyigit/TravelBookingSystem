@@ -4,11 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-<<<<<<< Updated upstream
     <UserSecretsId>ea5da043-0502-4d52-acaa-003e88160319</UserSecretsId>
-=======
-    <UserSecretsId>5a657165-8bcf-4636-b763-c46302fae299</UserSecretsId>
->>>>>>> Stashed changes
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 

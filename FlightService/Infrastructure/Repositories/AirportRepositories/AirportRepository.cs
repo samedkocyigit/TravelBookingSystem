@@ -14,11 +14,17 @@ namespace FlightService.Infrastructure.Repositories.AirportRepositories
 
         public async Task<List<Airport>> GetAllAirports()
         {
-            return await _context.Airports.ToListAsync();
+            return await _context.Airports
+                .Include(a => a.ArrivingFlights)
+                .Include(a => a.DepartingFlights)
+                .ToListAsync();
         }
         public async Task<Airport> GetAirportById(Guid id)
         {
-            return await _context.Airports.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.Airports
+                .Include(a => a.ArrivingFlights)
+                .Include(a => a.DepartingFlights)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<Airport> CreateAirport(Airport airport)

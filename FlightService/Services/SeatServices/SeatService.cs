@@ -1,4 +1,6 @@
-﻿using FlightService.Domain.Models;
+﻿using AutoMapper;
+using FlightService.Domain.Dtos.Seat;
+using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.SeatRepositories;
 
 namespace FlightService.Services.SeatServices
@@ -6,31 +8,39 @@ namespace FlightService.Services.SeatServices
     public class SeatService : ISeatService
     {
         protected readonly ISeatRepository _seatRepository;
-        public SeatService(ISeatRepository seatRepository)
+        protected readonly IMapper _mapper;
+        public SeatService(ISeatRepository seatRepository , IMapper mapper)
         {
             _seatRepository = seatRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<Seat>> GetAllSeats()
+        public async Task<List<SeatResponseDto>> GetAllSeats()
         {
             var seats = await _seatRepository.GetAllSeats();
-            return seats;
+            var mappedSeats = _mapper.Map<List<SeatResponseDto>>(seats);    
+            return mappedSeats;
         }
-        public async Task<Seat> GetSeatById(Guid id)
+        public async Task<SeatResponseDto> GetSeatById(Guid id)
         {
             var seat = await _seatRepository.GetSeatById(id);
-            return seat;
+            var mappedSeat = _mapper.Map<SeatResponseDto>(seat);
+            return mappedSeat;
         }
-        public async Task<Seat> CreateSeat(Seat seat)
+        public async Task<SeatResponseDto> CreateSeat(CreateSeatDto seatDto)
         {
+            var seat = _mapper.Map<Seat>(seatDto);
             var newSeat = await _seatRepository.CreateSeat(seat);
-            return newSeat;
+            var mappedSeat = _mapper.Map<SeatResponseDto>(newSeat);
+            return mappedSeat;
         }
 
-        public async Task<Seat> UpdateSeat(Seat seat)
+        public async Task<SeatResponseDto> UpdateSeat(CreateSeatDto seatDto)
         {
+            var seat = _mapper.Map<Seat>(seatDto);
             var updatedSeat = await _seatRepository.UpdateSeat(seat);
-            return updatedSeat;
+            var mappedSeat = _mapper.Map<SeatResponseDto>(updatedSeat);
+            return mappedSeat;
         }
 
         public async Task DeleteSeat(Guid id)

@@ -1,4 +1,5 @@
-﻿using FlightService.Domain.Models;
+﻿using FlightService.Domain.Dtos.Airport;
+using FlightService.Domain.Models;
 using FlightService.Services.AirportServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,15 +28,15 @@ namespace FlightService.Controllers
             return Ok(airport);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateAirport(Airport airport)
+        public async Task<IActionResult> CreateAirport(CreateAirportDto airportDto)
         {
-            var newAirport = await _airportService.CreateAirport(airport);
+            var newAirport = await _airportService.CreateAirport(airportDto);
             return Ok(newAirport);
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateAirport(Airport airport)
+        public async Task<IActionResult> UpdateAirport(CreateAirportDto airportDto)
         {
-            var updatedAirport = await _airportService.UpdateAirport(airport);
+            var updatedAirport = await _airportService.UpdateAirport(airportDto);
             return Ok(updatedAirport);
         }
         [HttpDelete]

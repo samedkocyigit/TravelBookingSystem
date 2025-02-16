@@ -1,13 +1,14 @@
-﻿using FlightService.Domain.Models;
+﻿using FlightService.Domain.Dtos.TicketPrice;
+using FlightService.Domain.Models;
 
 namespace FlightService.Services.TicketPriceServices
 {
     public interface ITicketPriceService
     {
-        Task<List<TicketPrice>> GetAllTicketPrices();
-        Task<TicketPrice> GetTicketPriceById(Guid id);
-        Task<TicketPrice> CreateTicketPrice(TicketPrice ticketPrice);
-        Task<TicketPrice> UpdateTicketPrice(TicketPrice ticketPrice);
+        Task<List<TicketPriceResponseDto>> GetAllTicketPrices();
+        Task<TicketPriceResponseDto> GetTicketPriceById(Guid id);
+        Task<TicketPriceResponseDto> CreateTicketPrice(CreateTicketPriceDto ticketPriceDto);
+        Task<TicketPriceResponseDto> UpdateTicketPrice(CreateTicketPriceDto ticketPriceDto);
         Task DeleteTicketPrice(Guid id);
     }
 }

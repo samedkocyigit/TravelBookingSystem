@@ -1,13 +1,14 @@
-﻿using FlightService.Domain.Models;
+﻿using FlightService.Domain.Dtos.FlightCompany;
+using FlightService.Domain.Models;
 
 namespace FlightService.Services.FlightCompanyServices
 {
     public interface IFlightCompanyService
     {
-        Task<List<FlightCompany>> GetAllFlightCompanies();
-        Task<FlightCompany> GetFlightCompanyById(Guid id);
-        Task<FlightCompany> CreateFlightCompany(FlightCompany flightCompany);
-        Task<FlightCompany> UpdateFlightCompany(FlightCompany flightCompany);
+        Task<List<FlightCompanyResponseDto>> GetAllFlightCompanies();
+        Task<FlightCompanyResponseDto> GetFlightCompanyById(Guid id);
+        Task<FlightCompanyResponseDto> CreateFlightCompany(CreateFlightCompanyDto flightCompanyDto);
+        Task<FlightCompanyResponseDto> UpdateFlightCompany(CreateFlightCompanyDto flightCompanyDto);
         Task DeleteFlightCompany(Guid id);
     }
 }

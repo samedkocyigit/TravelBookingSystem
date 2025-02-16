@@ -1,4 +1,6 @@
-﻿using FlightService.Domain.Models;
+﻿using AutoMapper;
+using FlightService.Domain.Dtos.Aircraft;
+using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.AircraftRepositories;
 
 namespace FlightService.Services.AircraftServices
@@ -6,31 +8,39 @@ namespace FlightService.Services.AircraftServices
     public class AircraftService: IAircraftService
     {
         protected readonly IAircraftRepository _aircraftRepository;
-        public AircraftService(IAircraftRepository aircraftRepository)
+        protected readonly IMapper _mapper;
+        public AircraftService(IAircraftRepository aircraftRepository , IMapper mapper)
         {
             _aircraftRepository = aircraftRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<Aircraft>> GetAllAircrafts()
+        public async Task<List<AircraftResponseDto>> GetAllAircrafts()
         {
             var aircrafts = await _aircraftRepository.GetAllAircrafts();
-            return aircrafts;
+            var mappedAircrafts = _mapper.Map<List<AircraftResponseDto>>(aircrafts);
+            return mappedAircrafts;
         }
-        public async Task<Aircraft> GetAircraftById(Guid id)
+        public async Task<AircraftResponseDto> GetAircraftById(Guid id)
         {
             var aircraft = await _aircraftRepository.GetAircraftById(id);
-            return aircraft;
+            var mappedAircraft = _mapper.Map<AircraftResponseDto>(aircraft);
+            return mappedAircraft;
         }
-        public async Task<Aircraft> CreateAircraft(Aircraft aircraft)
+        public async Task<AircraftResponseDto> CreateAircraft(CreateAircraftDto aircraftDto)
         {
+            var aircraft = _mapper.Map<Aircraft>(aircraftDto);
             var newAircraft = await _aircraftRepository.CreateAircraft(aircraft);
-            return newAircraft;
+            var mappedAircraft = _mapper.Map<AircraftResponseDto>(newAircraft);
+            return mappedAircraft;
         }
 
-        public async Task<Aircraft> UpdateAircraft(Aircraft aircraft)
+        public async Task<AircraftResponseDto> UpdateAircraft(CreateAircraftDto aircraftDto)
         {
+            var aircraft = _mapper.Map<Aircraft>(aircraftDto);
             var updatedAircraft = await _aircraftRepository.UpdateAircraft(aircraft);
-            return updatedAircraft;
+            var mappedAircraft = _mapper.Map<AircraftResponseDto>(updatedAircraft);
+            return mappedAircraft;
         }
 
         public async Task DeleteAircraft(Guid id)

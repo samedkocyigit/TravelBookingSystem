@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   userservice:
     build:
@@ -80,6 +78,10 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+networks:
+  my_custom_network:
+    external: true
 
 volumes:
   pgdata:

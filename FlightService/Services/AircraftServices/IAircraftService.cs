@@ -1,13 +1,14 @@
-﻿using FlightService.Domain.Models;
+﻿using FlightService.Domain.Dtos.Aircraft;
+using FlightService.Domain.Models;
 
 namespace FlightService.Services.AircraftServices
 {
     public interface IAircraftService
     {
-        Task<List<Aircraft>> GetAllAircrafts();
-        Task<Aircraft> GetAircraftById(Guid id);
-        Task<Aircraft> CreateAircraft(Aircraft aircraft);
-        Task<Aircraft> UpdateAircraft(Aircraft aircraft);
+        Task<List<AircraftResponseDto>> GetAllAircrafts();
+        Task<AircraftResponseDto> GetAircraftById(Guid id);
+        Task<AircraftResponseDto> CreateAircraft(CreateAircraftDto aircraftDto);
+        Task<AircraftResponseDto> UpdateAircraft(CreateAircraftDto aircraftDto);
         Task DeleteAircraft(Guid id);
     }
 }

@@ -1,4 +1,6 @@
-﻿using FlightService.Domain.Models;
+﻿using AutoMapper;
+using FlightService.Domain.Dtos.BaggageAllowance;
+using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.BaggageAllowanceRepositories;
 
 namespace FlightService.Services.BaggageAllowanceServices
@@ -6,31 +8,39 @@ namespace FlightService.Services.BaggageAllowanceServices
     public class BaggageAllowanceService : IBaggageAllowanceService
     {
         protected readonly IBaggageAllowanceRepository _baggageAllowanceRepository;
-        public BaggageAllowanceService(IBaggageAllowanceRepository baggageAllowanceRepository)
+        protected readonly IMapper _mapper;
+        public BaggageAllowanceService(IBaggageAllowanceRepository baggageAllowanceRepository,IMapper mapper)
         {
             _baggageAllowanceRepository = baggageAllowanceRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<BaggageAllowance>> GetAllBaggageAllowances()
+        public async Task<List<BaggageAllowanceResponseDto>> GetAllBaggageAllowances()
         {
             var baggageAllowances = await _baggageAllowanceRepository.GetAllBaggageAllowances();
-            return baggageAllowances;
+            var mappedBaggageAllowances = _mapper.Map<List<BaggageAllowanceResponseDto>>(baggageAllowances);
+            return mappedBaggageAllowances;
         }
-        public async Task<BaggageAllowance> GetBaggageAllowanceById(Guid id)
+        public async Task<BaggageAllowanceResponseDto> GetBaggageAllowanceById(Guid id)
         {
             var baggageAllowance = await _baggageAllowanceRepository.GetBaggageAllowanceById(id);
-            return baggageAllowance;
+            var mappedBaggageAllowance = _mapper.Map<BaggageAllowanceResponseDto>(baggageAllowance);
+            return mappedBaggageAllowance;
         }
-        public async Task<BaggageAllowance> CreateBaggageAllowance(BaggageAllowance baggageAllowance)
+        public async Task<BaggageAllowanceResponseDto> CreateBaggageAllowance(CreateBaggageAllowanceDto baggageAllowanceDto)
         {
+            var baggageAllowance = _mapper.Map<BaggageAllowance>(baggageAllowanceDto);
             var newBaggageAllowance = await _baggageAllowanceRepository.CreateBaggageAllowance(baggageAllowance);
-            return newBaggageAllowance;
+            var mappedBaggageAllowance = _mapper.Map<BaggageAllowanceResponseDto>(newBaggageAllowance);
+            return mappedBaggageAllowance;
         }
 
-        public async Task<BaggageAllowance> UpdateBaggageAllowance(BaggageAllowance baggageAllowance)
+        public async Task<BaggageAllowanceResponseDto> UpdateBaggageAllowance(CreateBaggageAllowanceDto baggageAllowanceDto)
         {
+            var baggageAllowance = _mapper.Map<BaggageAllowance>(baggageAllowanceDto);
             var updatedBaggageAllowance = await _baggageAllowanceRepository.UpdateBaggageAllowance(baggageAllowance);
-            return updatedBaggageAllowance;
+            var mappedBaggageAllowance = _mapper.Map<BaggageAllowanceResponseDto>(updatedBaggageAllowance);
+            return mappedBaggageAllowance;
         }
 
         public async Task DeleteBaggageAllowance(Guid id)

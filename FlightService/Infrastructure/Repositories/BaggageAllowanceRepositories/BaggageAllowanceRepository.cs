@@ -14,7 +14,8 @@ namespace FlightService.Infrastructure.Repositories.BaggageAllowanceRepositories
 
         public async Task<List<BaggageAllowance>> GetAllBaggageAllowances()
         {
-            return await _context.BaggageAllowances.ToListAsync();
+            return await _context.BaggageAllowances
+                .ToListAsync();
         }
         public async Task<BaggageAllowance> GetBaggageAllowanceById(Guid id)
         {

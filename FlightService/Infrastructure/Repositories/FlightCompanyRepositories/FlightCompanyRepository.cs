@@ -14,11 +14,15 @@ namespace FlightService.Infrastructure.Repositories.FlightCompanyCompanyReposito
 
         public async Task<List<FlightCompany>> GetAllFlightCompanies()
         {
-            return await _context.FlightCompanies.ToListAsync();
+            return await _context.FlightCompanies
+                .Include(fc => fc.Flights)
+                .ToListAsync();
         }
         public async Task<FlightCompany> GetFlightCompanyById(Guid id)
         {
-            return await _context.FlightCompanies.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.FlightCompanies
+                .Include(fc => fc.Flights)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<FlightCompany> CreateFlightCompany(FlightCompany flightCompany)

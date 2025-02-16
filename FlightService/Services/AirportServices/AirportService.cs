@@ -1,4 +1,6 @@
-﻿using FlightService.Domain.Models;
+﻿using AutoMapper;
+using FlightService.Domain.Dtos.Airport;
+using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.AirportRepositories;
 
 namespace FlightService.Services.AirportServices
@@ -6,31 +8,39 @@ namespace FlightService.Services.AirportServices
     public class AirportService: IAirportService
     {
         protected readonly IAirportRepository _airportRepository;
-        public AirportService(IAirportRepository airportRepository)
+        protected readonly IMapper _mapper;
+        public AirportService(IAirportRepository airportRepository , IMapper mapper)
         {
+            _mapper = mapper;
             _airportRepository = airportRepository;
         }
 
-        public async Task<List<Airport>> GetAllAirports()
+        public async Task<List<AirportResponseDto>> GetAllAirports()
         {
             var airports = await _airportRepository.GetAllAirports();
-            return airports;
+            var mappedAirports = _mapper.Map<List<AirportResponseDto>>(airports);
+            return mappedAirports;
         }
-        public async Task<Airport> GetAirportById(Guid id)
+        public async Task<AirportResponseDto> GetAirportById(Guid id)
         {
             var airport = await _airportRepository.GetAirportById(id);
-            return airport;
+            var mappedAirport = _mapper.Map<AirportResponseDto>(airport);
+            return mappedAirport;
         }
-        public async Task<Airport> CreateAirport(Airport airport)
+        public async Task<AirportResponseDto> CreateAirport(CreateAirportDto airportDto)
         {
+            var airport = _mapper.Map<Airport>(airportDto);
             var newAirport = await _airportRepository.CreateAirport(airport);
-            return newAirport;
+            var mappedAirport = _mapper.Map<AirportResponseDto>(newAirport);
+            return mappedAirport;
         }
 
-        public async Task<Airport> UpdateAirport(Airport airport)
+        public async Task<AirportResponseDto> UpdateAirport(CreateAirportDto airportDto)
         {
+            var airport = _mapper.Map<Airport>(airportDto);
             var updatedAirport = await _airportRepository.UpdateAirport(airport);
-            return updatedAirport;
+            var mappedAirport = _mapper.Map<AirportResponseDto>(updatedAirport);
+            return mappedAirport;
         }
 
         public async Task DeleteAirport(Guid id)

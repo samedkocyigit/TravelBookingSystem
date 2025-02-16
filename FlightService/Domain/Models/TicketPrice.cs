@@ -1,4 +1,5 @@
 ﻿using FlightService.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace FlightService.Domain.Models
 {

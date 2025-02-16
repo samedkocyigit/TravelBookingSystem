@@ -42,5 +42,20 @@ namespace HotelService.Services.HotelServices
         {
             await _hotelRepository.DeleteHotelById(id);
         }
+        public async Task<List<AvailableRoomsDto>> GetAllAvailableRooms()
+        {
+            var availableRooms = await _hotelRepository.GetAllAvailableRooms();
+            var mappedAvailableRooms = _mapper.Map<List<AvailableRoomsDto>>(availableRooms);
+            foreach (var hotel in mappedAvailableRooms)
+            {
+                Console.WriteLine($"Hotel: {hotel.HotelName}");
+                foreach (var room in hotel.Rooms)
+                {
+                    Console.WriteLine($"- Room Type: {room.RoomType}"); // Burada hala enum ID mi dönüyor?
+                    Console.WriteLine($"- IsBooked: {room.IsBooked}");  // String mi?
+                }
+            }
+            return mappedAvailableRooms;
+        }
     }
 }

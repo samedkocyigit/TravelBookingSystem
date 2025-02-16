@@ -4,15 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-<<<<<<< Updated upstream
     <UserSecretsId>b5ee8522-160d-4a08-b0af-a18182775ee0</UserSecretsId>
-=======
-    <UserSecretsId>5914a138-f85b-402c-9680-e903f438120a</UserSecretsId>
->>>>>>> Stashed changes
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">

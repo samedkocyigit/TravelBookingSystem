@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FlightService.Domain.Models;
 using FlightService.Services.SeatServices;
+using FlightService.Domain.Dtos.Seat;
 
 namespace FlightService.Controllers
 {
@@ -27,15 +28,15 @@ namespace FlightService.Controllers
             return Ok(seat);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateSeat(Seat seat)
+        public async Task<IActionResult> CreateSeat(CreateSeatDto seatDto)
         {
-            var newSeat = await _seatService.CreateSeat(seat);
+            var newSeat = await _seatService.CreateSeat(seatDto);
             return Ok(newSeat);
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateSeat(Seat seat)
+        public async Task<IActionResult> UpdateSeat(CreateSeatDto seatDto)
         {
-            var updatedSeat = await _seatService.UpdateSeat(seat);
+            var updatedSeat = await _seatService.UpdateSeat(seatDto);
             return Ok(updatedSeat);
         }
         [HttpDelete]

@@ -1,4 +1,5 @@
-﻿using FlightService.Domain.Models;
+﻿using FlightService.Domain.Dtos.BaggageAllowance;
+using FlightService.Domain.Models;
 using FlightService.Services.BaggageAllowanceServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,15 +28,15 @@ namespace FlightService.Controllers
             return Ok(baggageAllowance);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateBaggageAllowance(BaggageAllowance baggageAllowance)
+        public async Task<IActionResult> CreateBaggageAllowance(CreateBaggageAllowanceDto baggageAllowanceDto)
         {
-            var newBaggageAllowance = await _baggageAllowanceService.CreateBaggageAllowance(baggageAllowance);
+            var newBaggageAllowance = await _baggageAllowanceService.CreateBaggageAllowance(baggageAllowanceDto);
             return Ok(newBaggageAllowance);
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateBaggageAllowance(BaggageAllowance baggageAllowance)
+        public async Task<IActionResult> UpdateBaggageAllowance(CreateBaggageAllowanceDto baggageAllowanceDto)
         {
-            var updatedBaggageAllowance = await _baggageAllowanceService.UpdateBaggageAllowance(baggageAllowance);
+            var updatedBaggageAllowance = await _baggageAllowanceService.UpdateBaggageAllowance(baggageAllowanceDto);
             return Ok(updatedBaggageAllowance);
         }
         [HttpDelete]
