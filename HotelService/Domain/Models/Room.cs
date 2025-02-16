@@ -12,6 +12,7 @@ namespace HotelService.Models.Models
         public decimal PricePerNight { get; set; }
         public int RoomNumber { get; set; }
         public IsBooked IsBooked { get; set; } = IsBooked.Available;
+        public Guid? CurrentUserId { get; set; }
         public Guid FloorId { get; set; }
         [JsonIgnore]
         public Floor? Floor { get; set; }
