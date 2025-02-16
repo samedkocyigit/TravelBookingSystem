@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
+using System.Text;
 using UserService.Domain.Dtos;
 using UserService.Domain.Models;
 using UserService.Infrastructure.Repositories.UserRepositories;
@@ -9,10 +11,12 @@ namespace UserService.Services.UserServices
     {
         protected readonly IUserRepository _userRepository;
         protected readonly IMapper _mapper;
-        public UsersService(IUserRepository userRepository, IMapper mapper)
+        protected readonly HttpClient _httpClient;
+        public UsersService(IUserRepository userRepository, IMapper mapper, HttpClient httpClient)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _httpClient = httpClient;
         }
 
         public async Task<List<UserDto>> GetAllUsers()
@@ -27,11 +31,17 @@ namespace UserService.Services.UserServices
             var mappedUser = _mapper.Map<UserDto>(user);
             return mappedUser;
         }
-        public async Task<UserDto> CreateUser(UserModel user)
+        public async Task<UserDto> CreateUser(CreateUserDto user)
         {
-            var newUser = await _userRepository.CreateUser(user);
-            var mappedUser = _mapper.Map<UserDto>(newUser);
-            return mappedUser;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            var mappedUser = _mapper.Map<UserModel>(user);
+            var newUser = await _userRepository.CreateUser(mappedUser);
+            if(newUser.Roles.Equals("admin") || newUser.Roles.Equals("manager"))
+            {
+                var response = await _httpClient.PutAsync("http://hotelservice:8080/api/Hotel/new-manager", new StringContent(JsonConvert.SerializeObject(newUser.Id), Encoding.UTF8, "application/json"));
+            }
+            var mappedUserDto = _mapper.Map<UserDto>(newUser);
+            return mappedUserDto;
         }
         public async Task<UserDto> UpdateUser(UserModel user)
         {
