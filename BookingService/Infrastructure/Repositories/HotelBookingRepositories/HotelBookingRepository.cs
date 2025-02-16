@@ -16,7 +16,7 @@ namespace BookingService.Infrastructure.Repositories.HotelBookingRepositories
         {
             return await _context.HotelBookings.ToListAsync();
         }
-        public async Task<HotelBooking?> GetBookingById(Guid id)
+        public async Task<HotelBooking> GetBookingById(Guid id)
         {
             return await _context.HotelBookings.FirstOrDefaultAsync(u => u.Id == id);
         }
