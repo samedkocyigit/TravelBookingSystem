@@ -16,7 +16,7 @@ namespace BookingService.Infrastructure.Repositories.FlightBookingRepositories
         {
             return await _context.FlightBookings.ToListAsync();
         }
-        public async Task<FlightBooking?> GetBookingById(Guid id)
+        public async Task<FlightBooking> GetBookingById(Guid id)
         {
             return await _context.FlightBookings.FirstOrDefaultAsync(u => u.Id == id);
         }

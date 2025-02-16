@@ -4,6 +4,7 @@ using BookingService.Infrastructure.Repositories.HotelBookingRepositories;
 using BookingService.Services.FlightBookingServices;
 using BookingService.Services.HotelBookingServices;
 using BookingService.Services.MigrationService;
+using BookingService.Services.RoomService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,11 +16,14 @@ builder.Services.AddScoped<IFlightBookingRepository, FlightBookingRepository>();
 builder.Services.AddScoped<IHotelBookingRepository, HotelBookingRepository>();
 builder.Services.AddScoped<IHotelBookingServices, HotelBookingsService>();
 builder.Services.AddScoped<IFlightBookingServices, FlightBookingsService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<MigrationService>();
 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient<RoomService>();
+
 
 var app = builder.Build();
 MigrationService.InitializeMigration(app);

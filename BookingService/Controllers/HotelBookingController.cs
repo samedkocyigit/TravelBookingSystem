@@ -1,5 +1,6 @@
 ﻿using BookingService.Domain.Models;
 using BookingService.Services.HotelBookingServices;
+using BookingService.Services.RoomService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingService.Controllers
@@ -8,10 +9,13 @@ namespace BookingService.Controllers
     [Route("api/[controller]")]
     public class HotelBookingController : ControllerBase
     {
-        private readonly IHotelBookingServices _hotelBookingService;
-        public HotelBookingController(IHotelBookingServices hotelBookingService)
+        protected readonly IHotelBookingServices _hotelBookingService;
+        protected readonly IRoomService _roomService;
+
+        public HotelBookingController(IHotelBookingServices hotelBookingService, IRoomService roomService)
         {
             _hotelBookingService = hotelBookingService;
+            _roomService = roomService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllHotelBookings()
@@ -44,6 +48,13 @@ namespace BookingService.Controllers
         {
             await _hotelBookingService.DeleteBooking(id);
             return Ok();
+        }
+        [HttpGet]
+        [Route("chech-available-rooms")]
+        public async Task<IActionResult> GetAllAvailableRooms()
+        {
+            var rooms = await _roomService.GetAvailableRoomsFromHotelService();
+            return Ok(rooms);
         }
     }
 }

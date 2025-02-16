@@ -79,5 +79,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+networks:
+  my_custom_network:
+    external: true
+
 volumes:
   pgdata:

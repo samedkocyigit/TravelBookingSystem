@@ -4,7 +4,7 @@ namespace BookingService.Infrastructure.Repositories.HotelBookingRepositories
 {
     public interface IHotelBookingRepository
     {
-       Task<List<HotelBooking>> GetAllBookings();
+        Task<List<HotelBooking>> GetAllBookings();
         Task<HotelBooking> GetBookingById(Guid id);
         Task<HotelBooking> CreateBooking(HotelBooking booking);
         Task<HotelBooking> UpdateBooking(HotelBooking booking);   
