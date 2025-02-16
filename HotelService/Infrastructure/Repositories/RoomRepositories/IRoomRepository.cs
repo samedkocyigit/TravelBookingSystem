@@ -9,6 +9,7 @@ namespace HotelService.Infrastructure.Repositories.RoomRepositories
         Task<Room> CreateRoom(Room room);
         Task<Room> UpdateRoom(Room room);   
         Task DeleteRoom(Guid id);
-
+        Task<int> AvailableRoomNumber(Guid id);
+        Task<int> GetLastRoomNumberInHotel(Guid id);
     }
 }
