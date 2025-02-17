@@ -66,14 +66,6 @@ namespace HotelService.Services.HotelServices
             {
                 var hotel = await _hotelRepository.GetHotelById(hotelId);
                 Console.WriteLine($"messispor : : : {hotel.Location}");
-                if (hotel.ManagerIds == null)
-                {
-                    Console.WriteLine("ronaldospor");
-                    hotel.ManagerIds = new List<Guid>();
-                    Console.WriteLine($"after  =  {hotel.ManagerIds.Count}");    
-
-                }
-
                 hotel.ManagerIds.Add(id);
                 Console.WriteLine($"blablalba first argument = {hotel.ManagerIds[0]} {hotel.ManagerIds.Count}");    
                 var updated = await _hotelRepository.UpdateHotel(hotel);
