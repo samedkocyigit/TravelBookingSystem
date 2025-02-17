@@ -6,14 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingService.Migrations
 {
     /// <inheritdoc />
-    public partial class SeperateModels : Migration
+    public partial class CreateInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Bookings");
-
             migrationBuilder.CreateTable(
                 name: "FlightBookings",
                 columns: table => new
@@ -36,9 +33,10 @@ namespace BookingService.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    HotelId = table.Column<Guid>(type: "uuid", nullable: true),
-                    BookingDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "numeric", nullable: false),
+                    HotelId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoomId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BookingDateDay = table.Column<int>(type: "integer", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "numeric", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -55,23 +53,6 @@ namespace BookingService.Migrations
 
             migrationBuilder.DropTable(
                 name: "HotelBookings");
-
-            migrationBuilder.CreateTable(
-                name: "Bookings",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    BookingDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    FlightId = table.Column<Guid>(type: "uuid", nullable: true),
-                    HotelId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "numeric", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bookings", x => x.Id);
-                });
         }
     }
 }

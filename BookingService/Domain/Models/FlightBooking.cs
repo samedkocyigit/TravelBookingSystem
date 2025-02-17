@@ -4,7 +4,7 @@ namespace BookingService.Domain.Models
 {
     public class FlightBooking
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public Guid UserId { get; set; }  
         public Guid? FlightId { get; set; }  
         public DateTime BookingDate { get; set; } = DateTime.UtcNow;

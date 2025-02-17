@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250216103439_SeperateModels")]
-    partial class SeperateModels
+    [Migration("20250217200751_CreateInitial")]
+    partial class CreateInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,16 +57,19 @@ namespace BookingService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("BookingDateDay")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid?>("HotelId")
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoomId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("TotalAmount")
+                    b.Property<decimal?>("TotalAmount")
                         .HasColumnType("numeric");
 
                     b.Property<Guid>("UserId")

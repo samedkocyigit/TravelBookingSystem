@@ -22,7 +22,7 @@ namespace BookingService.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BookingService.Domain.Models.Booking", b =>
+            modelBuilder.Entity("BookingService.Domain.Models.FlightBooking", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,9 +32,6 @@ namespace BookingService.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("FlightId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("HotelId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Status")
@@ -48,7 +45,36 @@ namespace BookingService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("FlightBookings");
+                });
+
+            modelBuilder.Entity("BookingService.Domain.Models.HotelBooking", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("BookingDateDay")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HotelBookings");
                 });
 #pragma warning restore 612, 618
         }
