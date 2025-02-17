@@ -1,14 +1,19 @@
-﻿using BookingService.Domain.Models;
+﻿using BookingService.Domain.Dtos;
+using BookingService.Domain.Models;
 using BookingService.Infrastructure.Repositories.HotelBookingRepositories;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace BookingService.Services.HotelBookingServices
 {
     public class HotelBookingsService:IHotelBookingServices
     {
         protected readonly IHotelBookingRepository _bookingRepository;
-        public HotelBookingsService(IHotelBookingRepository bookingRepository)
+        protected readonly HttpClient _httpClient;
+        public HotelBookingsService(IHotelBookingRepository bookingRepository, HttpClient httpClient)
         {
             _bookingRepository = bookingRepository;
+            _httpClient = httpClient;
         }
         public async Task<List<HotelBooking>> GetAllBookings()
         {
@@ -22,6 +27,9 @@ namespace BookingService.Services.HotelBookingServices
         }
         public async Task<HotelBooking> CreateBooking(HotelBooking booking)
         {
+            var res = await _httpClient.PutAsync($"https://hotelservice:8080/api/rooms/book/{booking.RoomId}/{booking.UserId}",null);
+            var room = await res.Content.ReadFromJsonAsync<RoomDto>();
+            booking.TotalAmount = booking.BookingDateDay * room.PricePerNight;
             var newBooking = await _bookingRepository.CreateBooking(booking);
             return newBooking;
         }
