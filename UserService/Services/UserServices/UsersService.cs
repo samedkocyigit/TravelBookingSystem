@@ -39,11 +39,8 @@ namespace UserService.Services.UserServices
             var newUser = await _userRepository.CreateUser(mappedUser);
             if(newUser.Roles == Roles.Admin || newUser.Roles == Roles.Manager)
             {
-                var payload = new { id = newUser.Id };
-                var jsonPayload = JsonConvert.SerializeObject(payload);
-                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PutAsync("http://hotelservice:8080/api/Hotel/new-manager", content);
+                var url = $"http://hotelservice:8080/api/Hotel/new-manager/{newUser.Id}";
+                var response = await _httpClient.PutAsync(url, null);
             }
             var mappedUserDto = _mapper.Map<UserDto>(newUser);
             return mappedUserDto;
