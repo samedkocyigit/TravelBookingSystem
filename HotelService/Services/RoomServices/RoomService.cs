@@ -61,6 +61,19 @@ namespace HotelService.Services.RoomServices
             var updatedRoom = await _roomRepository.UpdateRoom(room);
             return updatedRoom;
         }
+        public async Task<Room> BookRoom(Guid roomId,Guid userId)
+        {
+            var room = await _roomRepository.GetRoomById(roomId);
+            room.IsBooked = IsBooked.Unavailable;
+            room.CurrentUserId = userId;
+            var updatedRoom = await _roomRepository.UpdateRoom(room);
+            var hotel = await _hotelRepository.GetHotelById(room.Floor.HotelId);
+            if (hotel.AvailableRoom != null)
+                hotel.AvailableRoom--;
+            hotel.CustomerIds.Add(userId);
+            await _hotelRepository.UpdateHotel(hotel);
+            return updatedRoom;
+        }
 
         public async Task DeleteRoom(Guid id)
         {
