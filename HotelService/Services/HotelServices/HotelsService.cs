@@ -51,8 +51,8 @@ namespace HotelService.Services.HotelServices
                 Console.WriteLine($"Hotel: {hotel.HotelName}");
                 foreach (var room in hotel.Rooms)
                 {
-                    Console.WriteLine($"- Room Type: {room.RoomType}"); // Burada hala enum ID mi dönüyor?
-                    Console.WriteLine($"- IsBooked: {room.IsBooked}");  // String mi?
+                    Console.WriteLine($"- Room Type: {room.RoomType}");
+                    Console.WriteLine($"- IsBooked: {room.IsBooked}");  
                 }
             }
             return mappedAvailableRooms;

@@ -9,6 +9,7 @@ namespace HotelService.Services.RoomServices
         Task<Room>  GetRoomById(Guid id);
         Task<Room>  CreateRoom(RoomCreationDto room);
         Task<Room> UpdateRoom(Room room);
+        Task<Room> BookRoom(Guid roomId, Guid userId);
         Task DeleteRoom(Guid id);
     }
 }
