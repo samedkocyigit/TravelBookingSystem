@@ -19,7 +19,7 @@ namespace HotelService.Infrastructure.Repositories.RoomRepositories
         }
         public async Task<Room> GetRoomById(Guid id)
         {
-            return await _context.Rooms.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.Rooms.Include(u=>u.Floor).FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<Room> CreateRoom(Room room)
