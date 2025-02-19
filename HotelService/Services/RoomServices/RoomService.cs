@@ -64,6 +64,7 @@ namespace HotelService.Services.RoomServices
         public async Task<Room> BookRoom(Guid roomId,Guid userId)
         {
             var room = await _roomRepository.GetRoomById(roomId);
+            
             room.IsBooked = IsBooked.Unavailable;
             room.CurrentUserId = userId;
             var updatedRoom = await _roomRepository.UpdateRoom(room);
