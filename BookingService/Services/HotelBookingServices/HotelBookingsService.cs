@@ -27,7 +27,7 @@ namespace BookingService.Services.HotelBookingServices
         }
         public async Task<HotelBooking> CreateBooking(HotelBooking booking)
         {
-            var res = await _httpClient.PutAsync($"https://hotelservice:8080/api/rooms/book/{booking.RoomId}/{booking.UserId}",null);
+            var res = await _httpClient.PutAsync($"http://hotelservice:8080/api/room/book/{booking.RoomId}/{booking.UserId}",null);
             var room = await res.Content.ReadFromJsonAsync<RoomDto>();
             booking.TotalAmount = booking.BookingDateDay * room.PricePerNight;
             var newBooking = await _bookingRepository.CreateBooking(booking);
