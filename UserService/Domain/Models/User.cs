@@ -4,7 +4,7 @@ using UserService.Domain.Enums;
 
 namespace UserService.Domain.Models
 {
-    public class UserModel
+    public class User
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Username { get; set; }
@@ -22,8 +22,10 @@ namespace UserService.Domain.Models
         public DateTime? Birthday { get; set; }
         public Status Status { get; set; } = Status.Active;
         public Roles Roles { get; set; } = Roles.User;
+       
+        public List<Payment>? Payments { get; set; } = new List<Payment>();
 
-        public List<Guid>? BookingIds { get; set; } = new List<Guid>();
         public List<Guid>? FlightIds { get; set; } = new List<Guid>();
+        public List<Guid>? HotelIds { get; set; } = new List<Guid>();
     }
 }

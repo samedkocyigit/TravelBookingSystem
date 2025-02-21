@@ -4,7 +4,7 @@ namespace UserService.Services.TokenServices
 {
     public interface ITokenService
     {
-        string CreateToken(UserModel user);
+        string CreateToken(User user);
 
     }
 }

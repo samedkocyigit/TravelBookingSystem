@@ -1,4 +1,6 @@
-﻿namespace UserService.Domain.Dtos
+﻿using UserService.Domain.Dtos.User;
+
+namespace UserService.Domain.Dtos.Auth
 {
     public class LoginResponse
     {

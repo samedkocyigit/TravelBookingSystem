@@ -4,7 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using UserService.Domain.Dtos;
+using UserService.Domain.Dtos.Auth;
+using UserService.Domain.Dtos.User;
 using UserService.Domain.Models;
 using UserService.Infrastructure.Repositories.UserRepositories;
 using UserService.Services.EmailServices;
@@ -49,9 +50,9 @@ namespace UserService.Services.AuthServices
                 return loginResponse;
             }
         }
-        public async Task<UserModel> Register(RegisterDto registerModel)
+        public async Task<User> Register(RegisterDto registerModel)
         {
-            var user = new UserModel
+            var user = new User
             {
                 Email = registerModel.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(registerModel.Password),
@@ -114,7 +115,7 @@ namespace UserService.Services.AuthServices
         }
 
 
-        private string GenerateToken(UserModel user)
+        private string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("supersecretkeyunbeliaveablemysteriouskeyinhooaleeertt");
