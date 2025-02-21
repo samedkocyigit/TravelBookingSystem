@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UserService.Domain.Dtos;
+using UserService.Domain.Dtos.User;
 using UserService.Domain.Models;
 using UserService.Services.UserServices;
 
@@ -35,7 +35,7 @@ namespace UserService.Controllers
             return Ok(createdUser);
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UserModel user)
+        public async Task<IActionResult> UpdateUser(User user)
         {
             var updatedUser = await _userService.UpdateUser(user);
             return Ok(updatedUser);

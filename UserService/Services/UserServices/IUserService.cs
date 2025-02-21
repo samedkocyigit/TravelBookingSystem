@@ -1,4 +1,4 @@
-﻿using UserService.Domain.Dtos;
+﻿using UserService.Domain.Dtos.User;
 using UserService.Domain.Models;
 
 namespace UserService.Services.UserServices
@@ -8,7 +8,7 @@ namespace UserService.Services.UserServices
         Task<List<UserDto>> GetAllUsers();
         Task<UserDto> GetUserById(Guid id);
         Task<UserDto> CreateUser(CreateUserDto user);
-        Task<UserDto> UpdateUser(UserModel user);
+        Task<UserDto> UpdateUser(User user);
         Task DeleteUser(Guid id);
     }
 }

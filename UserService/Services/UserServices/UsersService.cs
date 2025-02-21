@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using System.Text;
-using UserService.Domain.Dtos;
+using UserService.Domain.Dtos.User;
 using UserService.Domain.Enums;
 using UserService.Domain.Models;
 using UserService.Infrastructure.Repositories.UserRepositories;
@@ -35,7 +35,7 @@ namespace UserService.Services.UserServices
         public async Task<UserDto> CreateUser(CreateUserDto user)
         {
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            var mappedUser = _mapper.Map<UserModel>(user);
+            var mappedUser = _mapper.Map<User>(user);
             var newUser = await _userRepository.CreateUser(mappedUser);
             if(newUser.Roles == Roles.Admin || newUser.Roles == Roles.Manager)
             {
@@ -45,7 +45,7 @@ namespace UserService.Services.UserServices
             var mappedUserDto = _mapper.Map<UserDto>(newUser);
             return mappedUserDto;
         }
-        public async Task<UserDto> UpdateUser(UserModel user)
+        public async Task<UserDto> UpdateUser(User user)
         {
             var updatedUser = await _userRepository.UpdateUser(user);
             var mappedUser = _mapper.Map<UserDto>(updatedUser);

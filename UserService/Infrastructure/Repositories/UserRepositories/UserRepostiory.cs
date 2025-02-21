@@ -12,25 +12,25 @@ namespace UserService.Infrastructure.Repositories.UserRepositories
             _context = context;
         }
 
-        public async Task<List<UserModel>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(u=> u.Payments).ToListAsync();
         }
-        public async Task<UserModel> GetUserById(Guid id)
+        public async Task<User> GetUserById(Guid id)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Users.Include(u=> u.Payments).FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<UserModel> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
         }
-        public async Task<UserModel> CreateUser(UserModel user)
+        public async Task<User> CreateUser(User user)
         {
             _context.Add(user);
             await _context.SaveChangesAsync();
             return user;
         }
-        public async Task<UserModel> UpdateUser(UserModel user)
+        public async Task<User> UpdateUser(User user)
         {
             _context.Update(user);
             await _context.SaveChangesAsync();

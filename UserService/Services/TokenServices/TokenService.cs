@@ -13,7 +13,7 @@ namespace UserService.Services.TokenServices
         {
             _configuration = configuration;
         }
-        public string CreateToken (UserModel user)
+        public string CreateToken (User user)
         {
             var claims = new[]
             {

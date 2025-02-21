@@ -7,11 +7,11 @@ namespace UserService.Infrastructure.Repositories.UserRepositories
 {
     public interface IUserRepository
     {
-        Task<List<UserModel>> GetAllUsers();
-        Task<UserModel> GetUserById(Guid id);
-        Task<UserModel> GetUserByEmail(string email);
-        Task<UserModel> CreateUser(UserModel user);
-        Task<UserModel> UpdateUser(UserModel user);
+        Task<List<User>> GetAllUsers();
+        Task<User> GetUserById(Guid id);
+        Task<User> GetUserByEmail(string email);
+        Task<User> CreateUser(User user);
+        Task<User> UpdateUser(User user);
         Task DeleteUserById(Guid id);
     }
 }
