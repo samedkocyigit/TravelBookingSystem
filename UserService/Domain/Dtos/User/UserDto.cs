@@ -1,4 +1,4 @@
-﻿namespace UserService.Domain.Dtos
+﻿namespace UserService.Domain.Dtos.User
 {
     public class UserDto
     {
