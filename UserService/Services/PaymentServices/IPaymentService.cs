@@ -1,4 +1,4 @@
-﻿using UserService.Domain.Dtos.Payment;
+﻿using UserService.Domain.Dtos.PaymentDtos;
 using UserService.Domain.Models;
 
 namespace UserService.Services.PaymentServices

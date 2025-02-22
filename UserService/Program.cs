@@ -2,14 +2,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using PaymentService.Infrastructure.Repositories.PaymentRepositories;
 using System.Reflection;
 using System.Text;
 using UserService.Infrastructure.ApplicationDbContext;
+using UserService.Infrastructure.Repositories.PaymentRepositories;
 using UserService.Infrastructure.Repositories.UserRepositories;
 using UserService.Services.AuthServices;
 using UserService.Services.EmailServices;
 using UserService.Services.MigrationService;
+using UserService.Services.PaymentServices;
 using UserService.Services.TokenServices;
 using UserService.Services.UserServices;
 
@@ -85,6 +86,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserService, UsersService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPaymentService,PaymentService>();
 builder.Services.AddScoped<MigrationService>();
 
 
