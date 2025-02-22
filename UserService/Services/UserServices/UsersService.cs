@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using System.Text;
-using UserService.Domain.Dtos.User;
+using UserService.Domain.Dtos.UserDtos;
 using UserService.Domain.Enums;
 using UserService.Domain.Models;
 using UserService.Infrastructure.Repositories.UserRepositories;
@@ -50,6 +50,21 @@ namespace UserService.Services.UserServices
             var updatedUser = await _userRepository.UpdateUser(user);
             var mappedUser = _mapper.Map<UserDto>(updatedUser);
 
+            return mappedUser;
+        }
+        public async Task<UserDto> UpdateUserAfterPayment(UpdateUserAfterPaymentsDto user)
+        {
+            Console.WriteLine($"Updating user after payment {user.Payments.First().CardNumber} vsvsvsvsvs {user.Id}");
+            var userToUpdate = await _userRepository.GetUserById(user.Id);
+            Console.WriteLine($"userToUpdate Fetched {userToUpdate.Email } bla bla {user.Payments.First().PaymentLimit}");
+            userToUpdate.Payments.First().PaymentLimit = user.Payments.First().PaymentLimit;
+            Console.WriteLine($"userToUpdate Limit Changed {user.Payments.First().PaymentLimit}");
+
+            var updatedUser = await _userRepository.UpdateUser(userToUpdate);
+            Console.WriteLine($"userToUpdate Updated");
+
+            var mappedUser = _mapper.Map<UserDto>(updatedUser);
+            Console.WriteLine($"userToUpdate Mapped");
             return mappedUser;
         }
         public async Task DeleteUser(Guid id)

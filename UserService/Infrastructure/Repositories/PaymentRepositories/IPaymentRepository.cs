@@ -1,6 +1,6 @@
 ﻿using UserService.Domain.Models;
 
-namespace PaymentService.Infrastructure.Repositories.PaymentRepositories
+namespace UserService.Infrastructure.Repositories.PaymentRepositories
 {
     public interface IPaymentRepository
     {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UserService.Domain.Dtos.User;
+using UserService.Domain.Dtos.UserDtos;
 using UserService.Domain.Models;
 using UserService.Services.UserServices;
 
@@ -38,6 +38,13 @@ namespace UserService.Controllers
         public async Task<IActionResult> UpdateUser(User user)
         {
             var updatedUser = await _userService.UpdateUser(user);
+            return Ok(updatedUser);
+        }
+        [HttpPut]
+        [Route("afterPayment")]
+        public async Task<IActionResult> UpdateUserAfterPayment(UpdateUserAfterPaymentsDto user)
+        {
+            var updatedUser = await _userService.UpdateUserAfterPayment(user);
             return Ok(updatedUser);
         }
         [HttpDelete]

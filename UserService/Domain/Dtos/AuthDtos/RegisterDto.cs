@@ -1,4 +1,4 @@
-﻿namespace UserService.Domain.Dtos.Auth
+﻿namespace UserService.Domain.Dtos.AuthDtos
 {
     public class RegisterDto
     {

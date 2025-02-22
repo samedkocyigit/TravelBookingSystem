@@ -1,17 +1,20 @@
 ﻿using AutoMapper;
-using PaymentService.Infrastructure.Repositories.PaymentRepositories;
-using UserService.Domain.Dtos.Payment;
+using UserService.Domain.Dtos.PaymentDtos;
 using UserService.Domain.Models;
+using UserService.Infrastructure.Repositories.PaymentRepositories;
+using UserService.Infrastructure.Repositories.UserRepositories;
 
 namespace UserService.Services.PaymentServices
 {
-    public class PaymentService
+    public class PaymentService: IPaymentService
     {
         protected readonly IPaymentRepository _paymentRepository;
+        protected readonly IUserRepository _userRepository;
         public readonly IMapper _mapper;
-        public PaymentService(IPaymentRepository paymentRepository,IMapper mapper)
+        public PaymentService(IPaymentRepository paymentRepository,IUserRepository userRepository,IMapper mapper)
         {
             _paymentRepository = paymentRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
         public async Task<List<Payment>> GetAllPayments()
@@ -25,7 +28,11 @@ namespace UserService.Services.PaymentServices
         public async Task<Payment> CreatePayment(PaymentCreateDto payment)
         {
             var mappedPayment = _mapper.Map<Payment>(payment);
-            return await _paymentRepository.CreatePayment(mappedPayment);
+            var newPayment = await _paymentRepository.CreatePayment(mappedPayment);
+            var user = await _userRepository.GetUserById(payment.UserId);
+            user.Payments.Add(newPayment);
+            await _userRepository.UpdateUser(user);
+            return newPayment;
         }
         public async Task<Payment> UpdatePayment(Payment payment)
         {

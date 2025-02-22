@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using UserService.Domain.Dtos.Payment;
-using UserService.Domain.Dtos.User;
+using UserService.Domain.Dtos.PaymentDtos;
+using UserService.Domain.Dtos.UserDtos;
 using UserService.Domain.Models;
 
 namespace UserService.Services.Profiles
@@ -17,7 +17,9 @@ namespace UserService.Services.Profiles
                 .ForMember(dest => dest.email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.age, opt => opt.MapFrom(src => src.Age))
                 .ForMember(dest => dest.birthday, opt => opt.MapFrom(src => src.Birthday))
-                .ForMember(dest => dest.nationality, opt => opt.MapFrom(src => src.Nationality));
+                .ForMember(dest => dest.nationality, opt => opt.MapFrom(src => src.Nationality))
+                .ForMember(dest => dest.payments, opt => opt.MapFrom(src => src.Payments))
+                .ReverseMap();
 
             CreateMap<CreateUserDto, User>()
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username))
