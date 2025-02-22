@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UserService.Domain.Dtos.Payment;
+using UserService.Domain.Dtos.PaymentDtos;
 using UserService.Domain.Models;
 using UserService.Services.PaymentServices;
 
@@ -14,17 +14,17 @@ namespace UserService.Controllers
         {
             _paymentService = paymentService;
         }
-        [HttpPost]
-        public async Task<IActionResult> CreatePayment(PaymentCreateDto payment)
-        {
-            var newPayment = await _paymentService.CreatePayment(payment);
-            return Ok(newPayment);
-        }
         [HttpGet]
         public async Task<IActionResult> GetAllPayments()
         {
             var payments = await _paymentService.GetAllPayments();
             return Ok(payments);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreatePayment(PaymentCreateDto payment)
+        {
+            var newPayment = await _paymentService.CreatePayment(payment);
+            return Ok(newPayment);
         }
         [HttpGet]
         [Route("{id}")]
