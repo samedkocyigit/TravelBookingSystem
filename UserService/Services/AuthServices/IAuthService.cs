@@ -1,4 +1,4 @@
-﻿using UserService.Domain.Dtos.Auth;
+﻿using UserService.Domain.Dtos.AuthDtos;
 using UserService.Domain.Models;
 
 namespace UserService.Services.AuthServices
