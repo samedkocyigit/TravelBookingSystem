@@ -1,4 +1,5 @@
-﻿using PaymentService.Domain.Models;
+﻿using PaymentService.Domain.Dtos;
+using PaymentService.Domain.Models;
 
 namespace PaymentService.Services.PaymentServices
 {
@@ -6,7 +7,7 @@ namespace PaymentService.Services.PaymentServices
     {
         Task<List<Payment>> GetAllPayments();
         Task<Payment> GetPaymentById(Guid id);
-        Task<Payment> CreatePayment(Payment payment);
+        Task<Payment> CreatePayment(PaymentCreationDto payment);
         Task<Payment> UpdatePayment(Payment payment);
         Task DeletePayment(Guid id);
     }
