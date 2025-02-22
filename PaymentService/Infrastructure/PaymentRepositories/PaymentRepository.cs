@@ -16,7 +16,7 @@ namespace PaymentService.Infrastructure.Repositories.PaymentRepositories
         {
             return await _context.Payments.ToListAsync();
         }
-        public async Task<Payment?> GetPaymentById(Guid id)
+        public async Task<Payment> GetPaymentById(Guid id)
         {
             return await _context.Payments.FirstOrDefaultAsync(u => u.Id == id);
         }
