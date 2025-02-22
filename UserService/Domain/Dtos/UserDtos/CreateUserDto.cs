@@ -1,6 +1,6 @@
 ﻿using UserService.Domain.Enums;
 
-namespace UserService.Domain.Dtos.User
+namespace UserService.Domain.Dtos.UserDtos  
 {
     public class CreateUserDto
     {

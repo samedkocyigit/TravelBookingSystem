@@ -1,4 +1,4 @@
-﻿namespace UserService.Domain.Dtos.Payment
+﻿namespace UserService.Domain.Dtos.PaymentDtos
 {
     public class PaymentCreateDto
     {

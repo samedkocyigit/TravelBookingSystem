@@ -1,4 +1,6 @@
-﻿namespace UserService.Domain.Dtos.User
+﻿using UserService.Domain.Models;
+
+namespace UserService.Domain.Dtos.UserDtos
 {
     public class UserDto
     {
@@ -10,6 +12,7 @@
         public int age { get; set; }
         public string nationality { get; set; }
         public DateTime birthday { get; set; }
+        public List<Payment> payments { get; set; }
 
     }
 }
