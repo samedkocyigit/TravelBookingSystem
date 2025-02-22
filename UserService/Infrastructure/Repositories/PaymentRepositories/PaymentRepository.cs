@@ -1,10 +1,8 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UserService.Domain.Models;
 using UserService.Infrastructure.ApplicationDbContext;
-using UserService.Infrastructure.Repositories.PaymentRepositories;
 
-namespace PaymentService.Infrastructure.Repositories.PaymentRepositories
+namespace UserService.Infrastructure.Repositories.PaymentRepositories
 {
     public class PaymentRepository : IPaymentRepository
     {
