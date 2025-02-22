@@ -1,6 +1,7 @@
 ﻿using PaymentService.Domain.Models;
 using PaymentService.Services.PaymentServices;
 using Microsoft.AspNetCore.Mvc;
+using PaymentService.Domain.Dtos;
 
 namespace PaymentService.Controllers
 {
@@ -27,7 +28,7 @@ namespace PaymentService.Controllers
             return Ok(payment);
         }
         [HttpPost]
-        public async Task<IActionResult> CreatePayment(Payment payment)
+        public async Task<IActionResult> CreatePayment(PaymentCreationDto payment)
         {
             var newPayment = await _paymentService.CreatePayment(payment);
             return Ok(newPayment);
