@@ -13,6 +13,8 @@ namespace UserService.Domain.Dtos.UserDtos
         public string nationality { get; set; }
         public DateTime birthday { get; set; }
         public List<Payment> payments { get; set; }
+        public List<Guid> flightBookingIds { get; set; }
+        public List<Guid> hotelBookingIds { get; set; }
 
     }
 }
