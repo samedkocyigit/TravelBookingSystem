@@ -25,7 +25,7 @@ namespace UserService.Domain.Models
        
         public List<Payment>? Payments { get; set; } = new List<Payment>();
 
-        public List<Guid>? FlightIds { get; set; } = new List<Guid>();
-        public List<Guid>? HotelIds { get; set; } = new List<Guid>();
+        public List<Guid>? FlightBookingIds { get; set; } = new List<Guid>();
+        public List<Guid>? HotelBookingIds { get; set; } = new List<Guid>();
     }
 }

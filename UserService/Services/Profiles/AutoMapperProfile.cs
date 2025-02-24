@@ -19,6 +19,8 @@ namespace UserService.Services.Profiles
                 .ForMember(dest => dest.birthday, opt => opt.MapFrom(src => src.Birthday))
                 .ForMember(dest => dest.nationality, opt => opt.MapFrom(src => src.Nationality))
                 .ForMember(dest => dest.payments, opt => opt.MapFrom(src => src.Payments))
+                .ForMember(dest => dest.flightBookingIds, opt => opt.MapFrom(src => src.FlightBookingIds))
+                .ForMember(dest => dest.hotelBookingIds, opt => opt.MapFrom(src => src.HotelBookingIds))
                 .ReverseMap();
 
             CreateMap<CreateUserDto, User>()
