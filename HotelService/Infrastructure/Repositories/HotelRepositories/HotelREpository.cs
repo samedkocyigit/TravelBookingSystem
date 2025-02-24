@@ -28,9 +28,21 @@ namespace HotelService.Infrastructure.Repositories.HotelRepositories
             return await _context.Hotels
                 .Include(h => h.Floors)
                     .ThenInclude(f => f.Rooms)
-                .Where(h => h.Floors.SelectMany(f=>f.Rooms).Any(r=> r.IsBooked == IsBooked.Available))
+                .Where(h => h.Floors.Any(f => f.Rooms.Any(r => r.IsBooked == IsBooked.Available)))
+                .Select(h => new Hotel
+                {
+                    Id = h.Id,
+                    Name = h.Name,
+                    Floors = h.Floors.Select(f => new Floor
+                    {
+                        Id = f.Id,
+                        Name = f.Name,
+                        Rooms = f.Rooms.Where(r => r.IsBooked == IsBooked.Available).ToList()
+                    }).ToList()
+                })
                 .ToListAsync();
         }
+
         public async Task<Hotel> GetHotelById(Guid id)
         {
             return await _context.Hotels

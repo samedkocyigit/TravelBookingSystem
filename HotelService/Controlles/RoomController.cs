@@ -53,5 +53,12 @@ namespace HotelService.Controlles
             var room = await _roomService.BookRoom(roomId, userId);
             return Ok(room);
         }
+        [HttpPut]
+        [Route("unbook/{roomId}")]
+        public async Task<IActionResult> UnBookRoom(Guid roomId)
+        {
+            var room = await _roomService.UnBookRoom(roomId);
+            return Ok(room);
+        }
     }
 }
