@@ -47,6 +47,10 @@ namespace FlightService.Infrastructure.ApplicationDbContext
                     .WithOne(ba=>ba.Flight)
                     .HasForeignKey(ba => ba.FlightId)
                     .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(f => f.FlightCompany)
+                    .WithMany(fc => fc.Flights)
+                    .HasForeignKey(f => f.FlightCompanyId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Airport>(entity =>
