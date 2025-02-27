@@ -30,6 +30,16 @@ namespace FlightService.Infrastructure.Repositories.FlightRepositories
                 .Include(f => f.FlightCompany)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
+        public async Task<List<Flight>> GetAvailableFlights(string fromWhere, string toWhere)
+        {
+            return await _context.Flights
+                .Include(f => f.Aircraft)
+                .Include(f => f.OriginAirport)
+                .Include(f => f.DestinationAirport)
+                .Include(f => f.FlightCompany)
+                .Where(f => f.OriginAirport.Name == fromWhere && f.DestinationAirport.Name == toWhere)
+                .ToListAsync();
+        }
 
         public async Task<Flight> CreateFlight(Flight flight)
         {
