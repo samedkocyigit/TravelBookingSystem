@@ -6,9 +6,11 @@ namespace BookingService.Services.FlightBookingServices
     public class FlightBookingsService:IFlightBookingServices
     {
         protected readonly IFlightBookingRepository _bookingRepository;
-        public FlightBookingsService(IFlightBookingRepository bookingRepository)
+        protected readonly HttpClient _httpClient;
+        public FlightBookingsService(IFlightBookingRepository bookingRepository, HttpClient httpClient)
         {
             _bookingRepository = bookingRepository;
+            _httpClient = httpClient;
         }
         public async Task<List<FlightBooking>> GetAllBookings()
         {
@@ -20,6 +22,12 @@ namespace BookingService.Services.FlightBookingServices
             var booking = await _bookingRepository.GetBookingById(id);
             return booking;
         }
+        //public async Task<Flights> GetAvailableFlights(string fromWhere, string toWhere)
+        //{
+        //    var res = await _httpClient.GetAsync($"http://flightservice:8080/api/flight/available-flights/{fromWhere}/{toWhere}");
+        //    var flights = await _bookingRepository.GetAvailableFlights(fromWhere, toWhere);
+        //    return flights;
+        //}
         public async Task<FlightBooking> CreateBooking(FlightBooking booking)
         {
             var newBooking = await _bookingRepository.CreateBooking(booking);

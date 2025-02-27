@@ -26,6 +26,13 @@ namespace BookingService.Controllers
             var booking = await _flightBookingService.GetBookingById(id);
             return Ok(booking);
         }
+        //[HttpGet]
+        //[Route("availableFlights/{fromWhere}/{toWhere}")]
+        //public async Task<IActionResult> GetAvailableFlights(string fromWhere, string toWhere)
+        //{
+        //    var flights = await _flightBookingService.GetAvailableFlights(fromWhere, toWhere);
+        //    return Ok(flights);
+        //}
         [HttpPost]
         public async Task<IActionResult> CreateBooking(FlightBooking booking)
         {
@@ -45,5 +52,6 @@ namespace BookingService.Controllers
             await _flightBookingService.DeleteBooking(id);
             return Ok();
         }
+
     }
 }
