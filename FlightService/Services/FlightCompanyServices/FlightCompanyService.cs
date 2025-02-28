@@ -2,6 +2,7 @@
 using FlightService.Domain.Dtos.FlightCompany;
 using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.FlightCompanyCompanyRepositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightService.Services.FlightCompanyServices
 {
@@ -29,6 +30,10 @@ namespace FlightService.Services.FlightCompanyServices
         }
         public async Task<FlightCompanyResponseDto> CreateFlightCompany(CreateFlightCompanyDto flightCompanyDto)
         {
+            if(flightCompanyDto.Code.Length != 3 || string.IsNullOrEmpty(flightCompanyDto.Name))
+            {
+                throw new ValidationException("Name is required and Code must be 2 characters long.");
+            }
             var flightCompany = _mapper.Map<FlightCompany>(flightCompanyDto);
             var newFlightCompany = await _flightCompanyRepository.CreateFlightCompany(flightCompany);
             var mappedFlightCompany = _mapper.Map<FlightCompanyResponseDto>(newFlightCompany);

@@ -2,6 +2,7 @@
 using FlightService.Domain.Dtos.TicketPrice;
 using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.TicketPriceRepositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightService.Services.TicketPriceServices
 {
@@ -29,6 +30,10 @@ namespace FlightService.Services.TicketPriceServices
         }
         public async Task<TicketPriceResponseDto> CreateTicketPrice(CreateTicketPriceDto ticketPriceDto)
         {
+            if(ticketPriceDto.Price <= 0 || ticketPriceDto.SeatClass == null || ticketPriceDto.FlightId == Guid.Empty)
+            {
+                throw new ValidationException("Price, SeatClass and FlightId are required.");
+            }
             var ticketPrice = _mapper.Map<TicketPrice>(ticketPriceDto);
             var newTicketPrice = await _ticketPriceRepository.CreateTicketPrice(ticketPrice);
             var mappedTicketPrice = _mapper.Map<TicketPriceResponseDto>(newTicketPrice);

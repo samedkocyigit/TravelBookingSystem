@@ -2,6 +2,7 @@
 using FlightService.Domain.Dtos.BaggageAllowance;
 using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.BaggageAllowanceRepositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightService.Services.BaggageAllowanceServices
 {
@@ -29,6 +30,11 @@ namespace FlightService.Services.BaggageAllowanceServices
         }
         public async Task<BaggageAllowanceResponseDto> CreateBaggageAllowance(CreateBaggageAllowanceDto baggageAllowanceDto)
         {
+            if(baggageAllowanceDto.ExtraChargePerKg < 0 || baggageAllowanceDto.WeightLimitKg < 0 || string.IsNullOrEmpty(baggageAllowanceDto.SeatClass.ToString()))
+            {
+                throw new ValidationException("ExtraChargePerKg, WeightLimitKg and SeatClass are required.");
+            }
+
             var baggageAllowance = _mapper.Map<BaggageAllowance>(baggageAllowanceDto);
             var newBaggageAllowance = await _baggageAllowanceRepository.CreateBaggageAllowance(baggageAllowance);
             var mappedBaggageAllowance = _mapper.Map<BaggageAllowanceResponseDto>(newBaggageAllowance);
