@@ -2,6 +2,7 @@
 using FlightService.Domain.Dtos.Aircraft;
 using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.AircraftRepositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightService.Services.AircraftServices
 {
@@ -29,6 +30,10 @@ namespace FlightService.Services.AircraftServices
         }
         public async Task<AircraftResponseDto> CreateAircraft(CreateAircraftDto aircraftDto)
         {
+            if (string.IsNullOrEmpty(aircraftDto.Model) || aircraftDto.Capacity <= 0)
+            {
+                throw new ValidationException("Model and Capacity are required.");
+            }
             var aircraft = _mapper.Map<Aircraft>(aircraftDto);
             var newAircraft = await _aircraftRepository.CreateAircraft(aircraft);
             var mappedAircraft = _mapper.Map<AircraftResponseDto>(newAircraft);
