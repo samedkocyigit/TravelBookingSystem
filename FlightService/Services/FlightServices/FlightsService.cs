@@ -44,24 +44,19 @@ namespace FlightService.Services.FlightServices
         }
         public async Task<FlightResponseDto> CreateFlight(CreateFlightDto flightDto)
         {
-            Console.WriteLine($"CreateDto flight from {flightDto.OriginAirportId} to {flightDto.DestinationAirportId}");
             var flight = _mapper.Map<Flight>(flightDto);
-            Console.WriteLine($"Mapped flight from {flight.OriginAirportId} to {flight.DestinationAirportId}");
 
             var flightCompany = await _flightCompanyRepository.GetFlightCompanyById(flight.FlightCompanyId);
             var aircraft = await _aircraftRepository.GetAircraftById(flight.AircraftId);
             var departureAirport = await _airportRepository.GetAirportById(flight.OriginAirportId);
-            Console.WriteLine($"Departure airport: {departureAirport.Name}");
             var arrivalAirport = await _airportRepository.GetAirportById(flight.DestinationAirportId);
-            Console.WriteLine($"Arrival airport: {arrivalAirport.Name}");
 
             var newFlight = await _flightRepository.CreateFlight(flight);
-            Console.WriteLine($"New flight from {newFlight.OriginAirportId} to {newFlight.DestinationAirportId}");
 
             flightCompany.Flights.Add(newFlight);
             aircraft.Flights.Add(newFlight);
-            departureAirport.ArrivingFlights.Add(newFlight);
-            arrivalAirport.DepartingFlights.Add(newFlight);
+            departureAirport.DepartingFlights.Add(newFlight);
+            arrivalAirport.ArrivingFlights.Add(newFlight);
 
             await _flightCompanyRepository.UpdateFlightCompany(flightCompany);
             await _aircraftRepository.UpdateAircraft(aircraft);
