@@ -2,6 +2,7 @@
 using FlightService.Domain.Dtos.Seat;
 using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.SeatRepositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightService.Services.SeatServices
 {
@@ -29,6 +30,10 @@ namespace FlightService.Services.SeatServices
         }
         public async Task<SeatResponseDto> CreateSeat(CreateSeatDto seatDto)
         {
+            if(seatDto.SeatClass == null || string.IsNullOrEmpty(seatDto.SeatNumber) || seatDto.FlightId == Guid.Empty || seatDto.TicketPriceId == Guid.Empty)
+            {
+                throw new ValidationException("SeatClass, SeatNumber, FlightId and TicketPriceId are required.");
+            }
             var seat = _mapper.Map<Seat>(seatDto);
             var newSeat = await _seatRepository.CreateSeat(seat);
             var mappedSeat = _mapper.Map<SeatResponseDto>(newSeat);

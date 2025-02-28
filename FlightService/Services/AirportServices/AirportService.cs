@@ -2,6 +2,7 @@
 using FlightService.Domain.Dtos.Airport;
 using FlightService.Domain.Models;
 using FlightService.Infrastructure.Repositories.AirportRepositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightService.Services.AirportServices
 {
@@ -29,6 +30,10 @@ namespace FlightService.Services.AirportServices
         }
         public async Task<AirportResponseDto> CreateAirport(CreateAirportDto airportDto)
         {
+            if(string.IsNullOrEmpty(airportDto.Name) || string.IsNullOrEmpty(airportDto.IATACode) || string.IsNullOrEmpty(airportDto.Location))
+            {
+                throw new ValidationException("Name, IATACode and Location are required.");
+            }
             var airport = _mapper.Map<Airport>(airportDto);
             var newAirport = await _airportRepository.CreateAirport(airport);
             var mappedAirport = _mapper.Map<AirportResponseDto>(newAirport);
