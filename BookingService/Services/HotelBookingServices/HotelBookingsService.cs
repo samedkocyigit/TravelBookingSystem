@@ -10,10 +10,10 @@ namespace BookingService.Services.HotelBookingServices
     {
         protected readonly IHotelBookingRepository _bookingRepository;
         protected readonly HttpClient _httpClient;
-        public HotelBookingsService(IHotelBookingRepository bookingRepository, HttpClient httpClient)
+        public HotelBookingsService(IHotelBookingRepository bookingRepository, IHttpClientFactory httpClientFactory)
         {
             _bookingRepository = bookingRepository;
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient();
         }
         public async Task<List<HotelBooking>> GetAllBookings()
         {
@@ -28,8 +28,13 @@ namespace BookingService.Services.HotelBookingServices
         public async Task<HotelBooking> CreateBooking(HotelBooking booking)
         {
             var res = await _httpClient.PutAsync($"http://hotelservice:8080/api/room/book/{booking.RoomId}/{booking.UserId}",null);
+            
+            if (!res.IsSuccessStatusCode)
+                throw new Exception("Failed to book the room.");
+            
             var room = await res.Content.ReadFromJsonAsync<RoomDto>();
             booking.TotalAmount = booking.BookingDateDay * room.PricePerNight;
+            
             var newBooking = await _bookingRepository.CreateBooking(booking);
             return newBooking;
         }
