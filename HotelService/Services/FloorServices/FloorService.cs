@@ -28,6 +28,11 @@ namespace HotelService.Services.FloorServices
         }
         public async Task<Floor> CreateFloor(FloorCreationDto floorDto)
         {
+            if(floorDto.hotelId == Guid.Empty || string.IsNullOrEmpty(floorDto.name))
+            {
+                throw new Exception("Invalid input");
+            }
+
             var mappedFloor = _mapper.Map<Floor>(floorDto);
             var newFloor = await _floorRepository.CreateFloor(mappedFloor);
             return newFloor;

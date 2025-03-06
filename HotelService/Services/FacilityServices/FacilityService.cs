@@ -27,6 +27,10 @@ namespace HotelService.Services.FacilityServices
         }
         public async Task<Facility> CreateFacility(FacilityCreationDto facilityDto)
         {
+            if(facilityDto.floorId == Guid.Empty || string.IsNullOrEmpty(facilityDto.name))
+            {
+                throw new Exception("Invalid input");
+            }
             var mappedFacility = _mapper.Map<Facility>(facilityDto);
             var newFacility = await _facilityRepository.CreateFacility(mappedFacility);
             return newFacility;
