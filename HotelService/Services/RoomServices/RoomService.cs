@@ -36,6 +36,10 @@ namespace HotelService.Services.RoomServices
         }
         public async Task<Room> CreateRoom(RoomCreationDto roomDto)
         {
+            if(roomDto.floorId == Guid.Empty || string.IsNullOrEmpty(roomDto.roomType.ToString()))
+            {
+                throw new Exception("Invalid input");
+            }
             var mappedRoom = _mapper.Map<Room>(roomDto);
             mappedRoom.PricePerNight = DetermineRoomPrice(roomDto.roomType);
             mappedRoom.RoomCapacity = DetermineRoomCapacity(roomDto.roomType);

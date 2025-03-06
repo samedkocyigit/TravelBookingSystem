@@ -27,6 +27,10 @@ namespace HotelService.Services.HotelServices
         }
         public async Task<Hotel> CreateHotel(HotelCreationDto hotelDto)
         {
+            if (string.IsNullOrEmpty(hotelDto.location) || string.IsNullOrEmpty(hotelDto.name) || (hotelDto.stars <=0 || hotelDto.stars>7) )
+            {
+                throw new Exception("Invalid input");
+            }
             var mappedHotel = _mapper.Map<Hotel>(hotelDto);
             var newHotel = await _hotelRepository.CreateHotel(mappedHotel);
             return newHotel;
