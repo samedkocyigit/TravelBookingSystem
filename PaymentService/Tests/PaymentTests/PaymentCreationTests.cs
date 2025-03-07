@@ -123,5 +123,161 @@ namespace PaymentService.Tests.PaymentTests
             _httpClientFactory.Verify(x => x.CreateClient(It.IsAny<string>()), Times.Once);
             _mapperMock.Verify(x => x.Map<Payment>(It.IsAny<PaymentCreationDto>()), Times.Once);
         }
+
+        [Fact]
+        public async Task CreatePayment_ShouldThrowException_WhenUserServiceFails()
+        {
+            var paymentCreationDto = new PaymentCreationDto
+            {
+                UserToBeCharged = Guid.NewGuid(),
+                BookingId = Guid.NewGuid(),
+                CardHolderName = "John Doe",
+                CVV = "123",
+                CardNumber = "1234567890123456",
+                ExpiryDate = "12/25"
+            };
+
+            _mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(m => m.RequestUri!.ToString().Contains("/api/User")),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.NotFound });
+
+            await Assert.ThrowsAsync<Exception>(() => _paymentService.CreatePayment(paymentCreationDto));
+        }
+        [Fact]
+        public async Task CreatePayment_ShouldThrowException_WhenUserNotFound()
+        {
+            var paymentCreationDto = new PaymentCreationDto
+            {
+                UserToBeCharged = Guid.NewGuid(),
+                BookingId = Guid.NewGuid(),
+                CardHolderName = "John Doe",
+                CVV = "123",
+                CardNumber = "1234567890123456",
+                ExpiryDate = "12/25"
+            };
+
+            // Simulate successful response but null content
+            _mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(m => m.RequestUri!.ToString().Contains("/api/User")),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("null")
+                });
+
+            var ex = await Assert.ThrowsAsync<Exception>(() => _paymentService.CreatePayment(paymentCreationDto));
+            Assert.Equal("User not found", ex.Message);
+        }
+        [Fact]
+        public async Task CreatePayment_ShouldThrowException_WhenPaymentDetailsAreInvalid()
+        {
+            var paymentCreationDto = new PaymentCreationDto
+            {
+                UserToBeCharged = Guid.NewGuid(),
+                BookingId = Guid.NewGuid(),
+                CardHolderName = "Wrong Name",
+                CVV = "000", 
+                CardNumber = "0000000000000000",
+                ExpiryDate = "01/30"
+            };
+
+            var userDto = new UserDto
+            {
+                Id = paymentCreationDto.UserToBeCharged,
+                Name = "John",
+                Surname = "Doe",
+                Payments = new List<PaymentDto>
+                {  
+                    new PaymentDto
+                    {
+                        CardHolderName = "John Doe",
+                        CVV = "123",
+                        CardNumber = "1234567890123456",
+                        ExpiryDate = "12/25",
+                        PaymentLimit = 1000
+                    }
+                }
+            };
+
+            var bookingDto = new BookingDto
+            {
+                Id = paymentCreationDto.BookingId,
+                TotalAmount = 100
+            };
+
+            // Mock successful user and booking responses
+            MockHttpCall("/api/User", userDto);
+            MockHttpCall("/api/HotelBooking", bookingDto);
+
+            var ex = await Assert.ThrowsAsync<Exception>(() => _paymentService.CreatePayment(paymentCreationDto));
+            Assert.Equal("Invalid Payment Details", ex.Message);
+        }
+
+        private void MockHttpCall<T>(string uri, T content)
+        {
+            _mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(m => m.RequestUri!.ToString().Contains(uri)),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = JsonContent.Create(content)
+                });
+        }
+        [Fact]
+        public async Task CreatePayment_ShouldThrowException_WhenUserUpdateFails()
+        {
+            var paymentCreationDto = new PaymentCreationDto
+            {
+                UserToBeCharged = Guid.NewGuid(),
+                BookingId = Guid.NewGuid(),
+                CardHolderName = "John Doe",
+                CVV = "123",
+                CardNumber = "1234567890123456",
+                ExpiryDate = "12/25"
+            };
+
+            var userDto = new UserDto
+            {
+                Id = paymentCreationDto.UserToBeCharged,
+                Name = "John",
+                Surname = "Doe",
+                Payments = new List<PaymentDto>
+        {
+            new PaymentDto
+            {
+                CardHolderName = "John Doe",
+                CVV = "123",
+                CardNumber = "1234567890123456",
+                ExpiryDate = "12/25",
+                PaymentLimit = 1000
+            }
+        }
+            };
+
+            var bookingDto = new BookingDto
+            {
+                Id = paymentCreationDto.BookingId,
+                TotalAmount = 100
+            };
+
+            MockHttpCall("/api/User", userDto);
+            MockHttpCall("/api/HotelBooking", bookingDto);
+
+            // Mock user update failure
+            _mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(m => m.Method == HttpMethod.Put),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError });
+
+            var ex = await Assert.ThrowsAsync<Exception>(() => _paymentService.CreatePayment(paymentCreationDto));
+            Assert.Equal("Failed to update user or booking information", ex.Message);
+        }
     }
 }
