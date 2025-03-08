@@ -13,11 +13,11 @@ namespace UserService.Services.UserServices
         protected readonly IUserRepository _userRepository;
         protected readonly IMapper _mapper;
         protected readonly HttpClient _httpClient;
-        public UsersService(IUserRepository userRepository, IMapper mapper, HttpClient httpClient)
+        public UsersService(IUserRepository userRepository, IMapper mapper, IHttpClientFactory httpClient)
         {
             _userRepository = userRepository;
             _mapper = mapper;
-            _httpClient = httpClient;
+            _httpClient = httpClient.CreateClient();
         }
 
         public async Task<List<UserDto>> GetAllUsers()
