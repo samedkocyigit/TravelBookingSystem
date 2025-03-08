@@ -86,8 +86,8 @@ namespace PaymentService.Tests.PaymentTests
                         ItExpr.IsAny<CancellationToken>())
                         .ReturnsAsync(new HttpResponseMessage
                         {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = JsonContent.Create(userDto)
+                            StatusCode = HttpStatusCode.OK,
+                            Content = JsonContent.Create(userDto)
                         });
 
             _mockHttpMessageHandler.Protected()
