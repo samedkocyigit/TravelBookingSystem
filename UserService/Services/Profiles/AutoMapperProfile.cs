@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using UserService.Domain.Dtos.AuthDtos;
 using UserService.Domain.Dtos.PaymentDtos;
 using UserService.Domain.Dtos.UserDtos;
 using UserService.Domain.Models;
@@ -40,6 +41,12 @@ namespace UserService.Services.Profiles
                 .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.ExpiryDate))
                 .ForMember(dest => dest.CardHolderName, opt => opt.MapFrom(src => src.CardHolderName))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ReverseMap();
+
+            CreateMap<User, RegisterDto>()
+                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)))
                 .ReverseMap();
         }
     }

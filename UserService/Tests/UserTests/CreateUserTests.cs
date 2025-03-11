@@ -39,7 +39,6 @@ public class UsersServiceTests
     [Fact]
     public async Task CreateUser_ShouldHashPassword_AndReturnUserDto()
     {
-        // Arrange
         var createUserDto = new CreateUserDto { Password = "123456", Roles = Roles.User };
         var userModel = new User { Id = Guid.NewGuid(), Password = "hashedPassword", Roles = Roles.User };
         var userDto = new UserDto { id = userModel.Id };
@@ -48,10 +47,8 @@ public class UsersServiceTests
         _userRepositoryMock.Setup(r => r.CreateUser(It.IsAny<User>())).ReturnsAsync(userModel);
         _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>())).Returns(userDto);
 
-        // Act
         var result = await _usersService.CreateUser(createUserDto);
 
-        // Assert
         Assert.NotNull(result);
         Assert.Equal(userModel.Id, result.id);
         _userRepositoryMock.Verify(r => r.CreateUser(It.IsAny<User>()), Times.Once);
@@ -60,7 +57,6 @@ public class UsersServiceTests
     [Fact]
     public async Task CreateUser_ShouldSendRequest_WhenRoleIsAdminOrManager()
     {
-        // Arrange
         var createUserDto = new CreateUserDto { Password = "123456", Roles = Roles.Manager };
         var userModel = new User { Id = Guid.NewGuid(), Password = "hashedPassword", Roles = Roles.Manager };
         var userDto = new UserDto { id = userModel.Id };
@@ -69,10 +65,8 @@ public class UsersServiceTests
         _userRepositoryMock.Setup(r => r.CreateUser(It.IsAny<User>())).ReturnsAsync(userModel);
         _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>())).Returns(userDto);
 
-        // Act
         var result = await _usersService.CreateUser(createUserDto);
 
-        // Assert
         Assert.NotNull(result);
         Assert.Equal(userModel.Id, result.id);
         _userRepositoryMock.Verify(r => r.CreateUser(It.IsAny<User>()), Times.Once);
