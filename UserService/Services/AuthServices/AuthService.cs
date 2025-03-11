@@ -52,17 +52,25 @@ namespace UserService.Services.AuthServices
         }
         public async Task<User> Register(RegisterDto registerModel)
         {
-            var user = new User
+            var mappedUser = _mapper.Map<User>(registerModel);
+            var createdUser = await _userRepository.CreateUser(mappedUser);
+
+            if (createdUser == null)
             {
-                Email = registerModel.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(registerModel.Password),
-                Username = registerModel.Username,
-            };
-            var createdUser = await _userRepository.CreateUser(user);
+                throw new Exception("User creation failed.");
+            }
+
             createdUser.UpdatedAt = DateTime.UtcNow;
             var lastseen = await _userRepository.UpdateUser(createdUser);
+
+            if (lastseen == null)
+            {
+                throw new Exception("User update failed.");
+            }
+
             return lastseen;
         }
+
         public async Task ForgotPassword(string email)
         {
             var user = await _userRepository.GetUserByEmail(email);
@@ -112,24 +120,6 @@ namespace UserService.Services.AuthServices
 
             user.UpdatedAt = DateTime.UtcNow;
             await _userRepository.UpdateUser(user);
-        }
-
-
-        private string GenerateToken(User user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("supersecretkeyunbeliaveablemysteriouskeyinhooaleeertt");
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
         }
     }
 }
