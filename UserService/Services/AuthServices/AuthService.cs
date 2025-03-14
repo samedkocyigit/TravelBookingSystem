@@ -52,6 +52,7 @@ namespace UserService.Services.AuthServices
         }
         public async Task<User> Register(RegisterDto registerModel)
         {
+            registerModel.Password = BCrypt.Net.BCrypt.HashPassword(registerModel.Password);
             var mappedUser = _mapper.Map<User>(registerModel);
             var createdUser = await _userRepository.CreateUser(mappedUser);
 

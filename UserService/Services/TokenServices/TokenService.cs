@@ -18,8 +18,8 @@ namespace UserService.Services.TokenServices
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub,user.Email),
-                new Claim(ClaimTypes.Name,user.Name),
-                new Claim(ClaimTypes.Surname,user.Surname),
+                new Claim(ClaimTypes.Name,user.Name ?? ""),
+                new Claim(ClaimTypes.Surname,user.Surname ?? ""),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim(ClaimTypes.Role, user.Roles.ToString())
             };
