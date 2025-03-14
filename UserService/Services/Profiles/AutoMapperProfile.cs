@@ -46,7 +46,7 @@ namespace UserService.Services.Profiles
             CreateMap<User, RegisterDto>()
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
                 .ReverseMap();
         }
     }
