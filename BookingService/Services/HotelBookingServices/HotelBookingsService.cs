@@ -2,6 +2,7 @@
 using BookingService.Domain.Models;
 using BookingService.Infrastructure.Repositories.HotelBookingRepositories;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace BookingService.Services.HotelBookingServices
@@ -10,10 +11,13 @@ namespace BookingService.Services.HotelBookingServices
     {
         protected readonly IHotelBookingRepository _bookingRepository;
         protected readonly HttpClient _httpClient;
-        public HotelBookingsService(IHotelBookingRepository bookingRepository, IHttpClientFactory httpClientFactory)
+        protected readonly IHttpContextAccessor _httpContextAccessor;
+        public HotelBookingsService(IHotelBookingRepository bookingRepository, IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
             _bookingRepository = bookingRepository;
             _httpClient = httpClientFactory.CreateClient();
+            _httpContextAccessor = httpContextAccessor;
+            
         }
         public async Task<List<HotelBooking>> GetAllBookings()
         {
@@ -27,6 +31,12 @@ namespace BookingService.Services.HotelBookingServices
         }
         public async Task<HotelBooking> CreateBooking(HotelBooking booking)
         {
+            var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString();
+            if (string.IsNullOrEmpty(token))
+                throw new Exception("Unauthorized");
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", ""));
+
             var res = await _httpClient.PutAsync($"http://hotelservice:8080/api/room/book/{booking.RoomId}/{booking.UserId}",null);
             
             if (!res.IsSuccessStatusCode)

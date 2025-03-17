@@ -1,5 +1,6 @@
 ﻿using BookingService.Domain.Models;
 using BookingService.Infrastructure.Repositories.FlightBookingRepositories;
+using System.Net.Http.Headers;
 
 namespace BookingService.Services.FlightBookingServices
 {
@@ -7,10 +8,12 @@ namespace BookingService.Services.FlightBookingServices
     {
         protected readonly IFlightBookingRepository _bookingRepository;
         protected readonly HttpClient _httpClient;
-        public FlightBookingsService(IFlightBookingRepository bookingRepository, HttpClient httpClient)
+        protected readonly IHttpContextAccessor _httpContextAccessor;
+        public FlightBookingsService(IFlightBookingRepository bookingRepository, HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _bookingRepository = bookingRepository;
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<List<FlightBooking>> GetAllBookings()
         {
@@ -24,6 +27,12 @@ namespace BookingService.Services.FlightBookingServices
         }
         //public async Task<Flights> GetAvailableFlights(string fromWhere, string toWhere)
         //{
+        //    var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString();
+        //    if (string.IsNullOrEmpty(token))
+        //        throw new Exception("Unauthorized");
+
+        //    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", ""));
+
         //    var res = await _httpClient.GetAsync($"http://flightservice:8080/api/flight/available-flights/{fromWhere}/{toWhere}");
         //    var flights = await _bookingRepository.GetAvailableFlights(fromWhere, toWhere);
         //    return flights;
